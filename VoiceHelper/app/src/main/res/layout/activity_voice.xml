@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.sunmoon.sunui.TitleBar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bar_height_normal"
+            app:title="语音助手"
+            android:background="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/v_voice"
+            android:layout_centerHorizontal="true"
+            />
+        <com.sunmoon.sunui.VoiceView
+            android:id="@+id/v_voice"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+</layout>

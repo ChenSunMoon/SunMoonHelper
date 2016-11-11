@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="title">
+        <attr name="title" format="string" />
+        <attr name="left_text" format="string" />
+        <attr name="left_icon" format="reference" />
+        <attr name="left_isShow" format="boolean" />
+        <attr name="isImmersive" format="boolean" />
+    </declare-styleable>
+</resources>
