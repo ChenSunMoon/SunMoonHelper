@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "sunmoon.com.voicehelper"
+        applicationId "com.sunmoon.helper"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -20,10 +20,11 @@ android {
     dataBinding {
         enabled true
     }
+
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -31,9 +32,25 @@ dependencies {
     //UI库
     compile project(path: ':Recognition')
     compile project(path: ':SunUI')
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'io.reactivex:rxjava:1.1.5'
-    compile'com.android.support:design:25.0.0'
-    compile'com.android.support:recyclerview-v7:25.0.0'
-
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.google.code.gson:gson:2.7'
+    //网络请求
+    compile 'com.lzy.net:okgo:2.0.0'
+    //可以单独使用，不需要依赖下方的扩展包
+    compile 'com.lzy.net:okrx:0.1.0'
+    //RxJava扩展支持，根据需要添加
+    compile 'com.lzy.net:okserver:1.1.0'
+    //下载管理和上传管理扩展，根据需要添加
+    compile files('libs/pinyin4j-2.5.0.jar')
+    compile 'org.greenrobot:greendao:3.2.0'
+    compile 'jp.wasabeef:richeditor-android:1.2.1'
+    compile 'com.hwangjr.rxbus:rxbus:1.0.5'
+    compile 'joda-time:joda-time:2.3'
+    compile 'com.alibaba:fastjson:1.1.46.android'
+    compile 'com.taobao.android:weex_sdk:0.5.1@aar'
 }

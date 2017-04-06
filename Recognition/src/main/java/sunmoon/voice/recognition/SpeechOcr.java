@@ -62,7 +62,7 @@ public class SpeechOcr {
         intent.putExtra(Constant.EXTRA_SOUND_SUCCESS, R.raw.bdspeech_recognition_success);
         intent.putExtra(Constant.EXTRA_SOUND_ERROR, R.raw.bdspeech_recognition_error);
         intent.putExtra(Constant.EXTRA_SOUND_CANCEL, R.raw.bdspeech_recognition_cancel);
-        //语音活动检测
+        // 语音活动检测
         intent.putExtra(Constant.EXTRA_VAD, "input");
         return intent;
     }

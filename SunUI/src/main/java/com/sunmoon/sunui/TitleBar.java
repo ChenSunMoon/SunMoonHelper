@@ -117,6 +117,7 @@ public class TitleBar extends ViewGroup {
             mLeftText.setText(mLeftTitle);
             Drawable drawable = getResources().getDrawable(mLeftIcon);
             drawable.setBounds(0, 0, DensityUtil.dip2px(mContext, 38), DensityUtil.dip2px(mContext, 38));
+            mLeftText.setTextColor(Color.WHITE);
             mLeftText.setCompoundDrawables(drawable, null, null, null);
             mLeftText.setOnClickListener(new OnClickListener() {
                 @Override
@@ -139,7 +140,7 @@ public class TitleBar extends ViewGroup {
         mCenterText.setTextSize(DEFAULT_MAIN_TEXT_SIZE);
         mCenterText.setSingleLine();
         mCenterText.setGravity(Gravity.CENTER);
-        mCenterText.setTextColor(Color.BLACK);
+        mCenterText.setTextColor(Color.WHITE);
         mCenterText.setEllipsize(TextUtils.TruncateAt.END);
         mCenterText.setText(mTitle);
         mSubTitleText.setTextSize(DEFAULT_SUB_TEXT_SIZE);

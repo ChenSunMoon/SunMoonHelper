@@ -40,10 +40,7 @@ public class VoiceView extends View {
 		paint.setColor(Color.LTGRAY);
 		canvas.drawCircle((float)width / 2, (float)height/ 2, dip2px(getContext(), 30) + cR, paint);
 		paint.setColor(Color.GRAY);
-
-
 		canvas.drawCircle((float)width / 2, (float)height/ 2, dip2px(getContext(), 30), paint);
-		
 		super.onDraw(canvas);
 	}
 	
