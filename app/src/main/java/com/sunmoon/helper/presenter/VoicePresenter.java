@@ -103,7 +103,7 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener ,
                 }
                 List<PhoneInfo> result= Phone.getPhoneByName(phoneInfos,userPurpose.getContent());
                 if (result.size()>0){
-                  sendLeftMsg("正在您呼叫:" + result.get(0).getName());
+                  sendLeftMsg("正在您呼叫: " + result.get(0).getName());
                     Phone.callPerson(context,result.get(0).getNumber());
                 } else{
                     sendRightMsg("未找到联系人:" + userPurpose.getContent());
