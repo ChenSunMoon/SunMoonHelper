@@ -21,14 +21,12 @@ import java.util.List;
 public class ListAdapter<T1, T2 extends ViewDataBinding> extends RecyclerView.Adapter<ListAdapter.BaseViewHolder> {
     private List<T1> list;
     private LayoutInflater inflater;
-    private Context context;
     @LayoutRes
     private int layout;
     private BindView<T2, T1> bindView;
 
     public ListAdapter(Context context, @LayoutRes int layout) {
         inflater = LayoutInflater.from(context);
-        this.context = context;
         this.layout = layout;
         list = new ArrayList<>();
     }
@@ -77,7 +75,6 @@ public class ListAdapter<T1, T2 extends ViewDataBinding> extends RecyclerView.Ad
 
     public static class BaseViewHolder extends RecyclerView.ViewHolder {
         private ViewDataBinding b;
-
         public BaseViewHolder(View itemView) {
             super(itemView);
             b = DataBindingUtil.bind(itemView);

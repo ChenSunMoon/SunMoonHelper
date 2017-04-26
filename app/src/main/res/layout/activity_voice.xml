@@ -10,15 +10,10 @@
     <RelativeLayout
         style="@style/match_parent"
         android:background="@color/chat_back">
-        <com.sunmoon.sunui.TitleBar
-            android:id="@+id/name"
-            app:title="语音助手"
-            style="@style/title_bar" />
        <android.support.v7.widget.RecyclerView
            android:id="@+id/rv_content"
            style="@style/match_width"
            android:layout_above="@+id/v_voice"
-           android:layout_below="@+id/name"
            app:stackFromEnd="true"
            android:transitionGroup="true"
            />

@@ -1,6 +1,17 @@
 package sunmoon.com.helper;
 
+import android.provider.Settings;
+import android.util.Log;
+import android.util.LogPrinter;
+
+import com.sunmoon.helper.api.ApiManage;
+import com.sunmoon.helper.model.TuLing;
+
 import org.junit.Test;
+
+import rx.Scheduler;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +23,5 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
     }
 }

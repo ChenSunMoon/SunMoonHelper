@@ -29,7 +29,7 @@ public class CircleImageView extends ImageView{
     private static final int DEFAULT_BORDER_WIDTH=0;
     private static final int DEFAULT_BORDER_COLOR=Color.TRANSPARENT;
 
-    private int mBorderWidth=DEFAULT_BORDER_WIDTH;//轮廓的宽度-->默认0，默认颜色透明
+    private int mBorderWidth=DEFAULT_BORDER_WIDTH;// 轮廓的宽度-->默认0，默认颜色透明
     private int mBorderColor=DEFAULT_BORDER_COLOR;
 
     private final Matrix mShaderMatrix =new Matrix();
