@@ -7,10 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 
+import com.orhanobut.logger.Logger;
 import com.sunmoon.helper.api.ApiManage;
+import com.sunmoon.helper.callBack.CallBack;
 import com.sunmoon.helper.common.Flag;
 import com.sunmoon.helper.model.Message;
-import com.sunmoon.helper.callBack.CallBack;
 import com.sunmoon.helper.model.PhoneInfo;
 import com.sunmoon.helper.model.TuLing;
 import com.sunmoon.helper.model.UserCommand;
@@ -20,6 +21,7 @@ import com.sunmoon.helper.utils.Phone;
 import com.sunmoon.helper.utils.UserPurpose;
 import com.sunmoon.helper.view.ChatView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -33,7 +35,7 @@ import sunmoon.voice.recognition.SpeechOcr;
  * Created by SunMoon on 2016/11/30.
  */
 
-public class VoicePresenter  extends  Presenter implements RecognitionListener ,CallBack{
+public class VoicePresenter  extends  Presenter implements RecognitionListener{
     private UserPurpose userPurpose;
     private ChatView view;
     private List<PackageInfo> packageInfos;
@@ -44,7 +46,7 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener ,
         this.context = context;
     }
     public void start(){
-        SpeechOcr.callBack(this);
+        SpeechOcr.setRecognitionListener(this);
         SpeechOcr.start();
     }
 
@@ -87,6 +89,7 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener ,
         String result= BaiduUntil.getRecResult(bundle);
         sendRightMsg(result);
         handleResult(userPurpose.getUserPurpose(result));
+
     }
    public void sendLeftMsg(String msg){
        view.sendMsg(new Message(msg,0));
@@ -106,7 +109,7 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener ,
                   sendLeftMsg("正在您呼叫: " + result.get(0).getName());
                     Phone.callPerson(context,result.get(0).getNumber());
                 } else{
-                    sendRightMsg("未找到联系人:" + userPurpose.getContent());
+                    sendLeftMsg("未找到联系人:" + userPurpose.getContent());
                 }
 
                 break;
@@ -116,7 +119,7 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener ,
                 }
                 String packName= Apk.getAppPackageName(context,packageInfos,userPurpose.getContent());
                 if (!packName.equals(Flag.FAIL)){
-                    sendRightMsg("正在打开："+userPurpose.getContent());
+                    sendLeftMsg("正在打开："+userPurpose.getContent());
                     Apk.openApp(context,packName);
 
                 }else {
@@ -172,16 +175,6 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener ,
     @Override
     public void onEvent(int i, Bundle bundle) {
 
-    }
-
-    @Override
-    public void success(String result) {
-        view.receiveMsg(new Message(result,0));
-    }
-
-    @Override
-    public void fail(String result) {
-        view.receiveMsg(new Message(result,0));
     }
 
     @Override

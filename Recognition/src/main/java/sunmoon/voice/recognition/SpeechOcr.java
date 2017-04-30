@@ -1,13 +1,17 @@
 package sunmoon.voice.recognition;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
 
-import java.io.File;
+import com.baidu.speech.VoiceRecognitionService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by SunMoon on 2016/10/19.
@@ -15,9 +19,9 @@ import java.io.File;
 
 public class SpeechOcr {
     private static SpeechOcr instance;
-    private static SpeechRecognitionBuilder mSpeecRecognition;
-    public static final String RESULT= SpeechRecognizer.RESULTS_RECOGNITION;
-    public static Intent mIntent;
+    public  static final String RESULT= SpeechRecognizer.RESULTS_RECOGNITION;
+    private static SpeechRecognizer mSpeechRecognizer;
+    public  static Intent mIntent;
     public static SpeechOcr getInstance(){
             if (instance==null){
                 instance=new SpeechOcr();
@@ -25,25 +29,24 @@ public class SpeechOcr {
         return instance;
     }
 
-    public void init(VoiceConfig voiceConfig){
-    }
     public void init(Context context){
-        mIntent=getParamsIntent();
-        mSpeecRecognition=new BaiduSpeecRec(context);
+        mIntent= initConfigIntent();
+        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(context, new ComponentName(context,VoiceRecognitionService.class));
     }
-    public static void  callBack(RecognitionListener callBack){
-        mSpeecRecognition.callBack(callBack);
+    public static void setRecognitionListener(RecognitionListener listener){
+        mSpeechRecognizer.setRecognitionListener(listener);
     }
     public static void start(){
-        mSpeecRecognition.start(mIntent);
+        mSpeechRecognizer.startListening(mIntent);
+
     }
     public static void startDialogRec(Activity activity,int flag){
-        mSpeecRecognition.startDialogRec(activity,mIntent,flag);
+        activity.startActivityForResult(mIntent,flag);
     }
     public static void stop(){
-        mSpeecRecognition.stop();
+        mSpeechRecognizer.stopListening();
     }
-    private Intent getParamsIntent() {
+    private Intent initConfigIntent() {
         //设置帐号详情
         /*intent.putExtra(Constant.APP_ID, "8769143");
         intent.putExtra(Constant.API_KEY, "bv7mxKITLI7m1ir97oVzKzHC");
@@ -53,8 +56,8 @@ public class SpeechOcr {
         intent.putExtra(Constant.EXTRA_SAMPLE, 16000);
         //设置语种
         intent.putExtra(Constant.EXTRA_LANGUAGE, "cmn-Hans-CN");
-        // intent.putExtra(Constant.EXTRA_OFFLINE_ASR_BASE_FILE_PATH, "/sdcard/s_1");
-        //intent.putExtra(Constant.EXTRA_OFFLINE_LM_RES_FILE_PATH, "/sdcard/s_2_Navi");
+         intent.putExtra(Constant.EXTRA_OFFLINE_ASR_BASE_FILE_PATH, "/sdcard/baidu/s_1");
+        intent.putExtra("grammar", "assets:///baidu_speech_grammar.bsg");
         intent.putExtra(Constant.EXTRA_PROP, 20000);
         //设置提示音
         intent.putExtra(Constant.EXTRA_SOUND_START, R.raw.bdspeech_recognition_start);
@@ -64,18 +67,17 @@ public class SpeechOcr {
         intent.putExtra(Constant.EXTRA_SOUND_CANCEL, R.raw.bdspeech_recognition_cancel);
         // 语音活动检测
         intent.putExtra(Constant.EXTRA_VAD, "input");
-        return intent;
-    }
-    /**
-    * 获取存储目录，若不存在就创建新目录。
-    * */
-    private String getDirPath(){
-        String sdcardPath = Environment.getExternalStorageDirectory().toString();
-        String dirPath=sdcardPath + "/" + "baiduTTS";
-        File file = new File(dirPath);
-        if (!file.exists()) {
-            file.mkdirs();
+        // 离线垂类槽数据设置
+        JSONObject slotData = new JSONObject();
+        JSONArray names = new JSONArray();
+        names.put("高前");
+        names.put("田宇辰");
+        try {
+            slotData.put("name",names);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return dirPath;
+        intent.putExtra("slot-data", slotData.toString());
+        return intent;
     }
 }

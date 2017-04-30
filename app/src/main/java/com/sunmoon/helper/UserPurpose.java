@@ -1,7 +1,8 @@
 package com.sunmoon.helper;
 
-import com.sunmoon.helper.bean.AnalyzeCommand;
-import com.sunmoon.helper.bean.UserCommand;
+
+import com.sunmoon.helper.model.AnalyzeCommand;
+import com.sunmoon.helper.model.UserCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserPurpose {
                 return new UserCommand(item.getCommand(),cmdCon);
             }
         }
-        return UserCommand.getDefaultCommand();
+        return UserCommand.getDefaultCommand(content);
     }
 
 }
