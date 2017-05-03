@@ -1,5 +1,7 @@
 package com.sunmoon.helper.model;
 
+import com.sunmoon.helper.utils.StringUtil;
+
 /**
  * Created by chenm on 2015/12/5.
  */
@@ -41,6 +43,6 @@ public class UserCommand {
     }
 
     public void setContent(String content) {
-        this.content = content.replaceAll(" ", "").replace("\n", "").replace(",", "").replace("，", "").replace("。", "").toUpperCase();;
+        this.content = StringUtil.ridPunctuation(content);
     }
 }

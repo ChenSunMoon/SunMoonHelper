@@ -6,10 +6,11 @@ import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
+import android.util.AndroidRuntimeException;
 
+import com.baidu.speech.EventListener;
 import com.orhanobut.logger.Logger;
 import com.sunmoon.helper.api.ApiManage;
-import com.sunmoon.helper.callBack.CallBack;
 import com.sunmoon.helper.common.Flag;
 import com.sunmoon.helper.model.Message;
 import com.sunmoon.helper.model.PhoneInfo;
@@ -18,10 +19,13 @@ import com.sunmoon.helper.model.UserCommand;
 import com.sunmoon.helper.utils.Apk;
 import com.sunmoon.helper.utils.BaiduUntil;
 import com.sunmoon.helper.utils.Phone;
+import com.sunmoon.helper.utils.StringUtil;
 import com.sunmoon.helper.utils.UserPurpose;
 import com.sunmoon.helper.view.ChatView;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import rx.Subscription;
@@ -29,25 +33,46 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import sunmoon.voice.recognition.SpeechOcr;
+import sunmoon.voice.tts.Tts;
 
 
 /**
  * Created by SunMoon on 2016/11/30.
  */
 
-public class VoicePresenter  extends  Presenter implements RecognitionListener{
+public class VoicePresenter extends Presenter implements RecognitionListener {
     private UserPurpose userPurpose;
     private ChatView view;
     private List<PackageInfo> packageInfos;
     private List<PhoneInfo> phoneInfos;
     private Context context;
-    public VoicePresenter(Context context){
-        this.userPurpose=new UserPurpose();
+     private Tts tts = new Tts();
+    public VoicePresenter(Context context) {
+        this.userPurpose = new UserPurpose();
         this.context = context;
+        SpeechOcr.registerWakeUpListener(new EventListener() {
+            @Override
+            public void onEvent(String name, String params, byte[] bytes, int i, int i1) {
+                Logger.i("name:" + name);
+                if ("wp.data".equals(name)) { // 每次唤醒成功, 将会回调name=wp.data的时间, 被激活的唤醒词在params的word字段
+                    startRec();
+                } else if ("wp.exit".equals(name)) {
+                }
+
+            }
+        });
+       tts.init(context);
     }
-    public void start(){
+    public void startWakeUp(){
+        SpeechOcr.startWakeUp();
+    }
+    public void startRec() {
+        SpeechOcr.stopWakeUp();
         SpeechOcr.setRecognitionListener(this);
-        SpeechOcr.start();
+        SpeechOcr.startRec();
+    }
+    public void stopAll(){
+        SpeechOcr.stopAll();
     }
 
     public void setView(ChatView view) {
@@ -66,7 +91,7 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener{
 
     @Override
     public void onRmsChanged(float v) {
-      view.onRmsChanged(v);
+        view.onRmsChanged(v);
     }
 
     @Override
@@ -86,57 +111,65 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener{
 
     @Override
     public void onResults(Bundle bundle) {
-        String result= BaiduUntil.getRecResult(bundle);
+        startWakeUp();
+        String raw = BaiduUntil.getRecResult(bundle);
+        String result = StringUtil.ridPunctuation(raw);
         sendRightMsg(result);
         handleResult(userPurpose.getUserPurpose(result));
 
     }
-   public void sendLeftMsg(String msg){
-       view.sendMsg(new Message(msg,0));
-   }
-   public void sendRightMsg(String msg){
-       view.sendMsg(new Message(msg,1));
-   }
-    public  Subscription rx;
+
+    public void sendLeftMsg(String msg) {
+        view.sendMsg(new Message(msg, 0));
+        tts.speak(msg);
+    }
+
+    public void sendRightMsg(String msg) {
+        view.sendMsg(new Message(msg, 1));
+    }
+
+    public Subscription rx;
+
     private void handleResult(UserCommand userPurpose) {
-        switch (userPurpose.getCommand()){
+
+        switch (userPurpose.getCommand()) {
             case UserCommand.COMMAND_CALLPHONE:
                 if (phoneInfos == null || phoneInfos.size() == 0) {
-                    phoneInfos=Phone.getPhoneInfos(context);
+                    phoneInfos = Phone.getPhoneInfos(context);
                 }
-                List<PhoneInfo> result= Phone.getPhoneByName(phoneInfos,userPurpose.getContent());
-                if (result.size()>0){
-                  sendLeftMsg("正在您呼叫: " + result.get(0).getName());
-                    Phone.callPerson(context,result.get(0).getNumber());
-                } else{
+                List<PhoneInfo> result = Phone.getPhonesByName(phoneInfos, userPurpose.getContent());
+                if (result.size() > 0) {
+                    sendLeftMsg("正在为您呼叫: " + result.get(0).getName());
+                    Phone.callPerson(context, result.get(0).getNumber());
+                } else {
                     sendLeftMsg("未找到联系人:" + userPurpose.getContent());
                 }
 
                 break;
             case UserCommand.COMMAND_OPEN_APP:
-                if (packageInfos ==null || packageInfos.size() == 0) {
-                    packageInfos=Apk.getPackgeInfos(context);
+                if (packageInfos == null || packageInfos.size() == 0) {
+                    packageInfos = Apk.getPackagesInfos(context);
                 }
-                String packName= Apk.getAppPackageName(context,packageInfos,userPurpose.getContent());
-                if (!packName.equals(Flag.FAIL)){
-                    sendLeftMsg("正在打开："+userPurpose.getContent());
-                    Apk.openApp(context,packName);
+                String packName = Apk.getAppPackageName(context, packageInfos, userPurpose.getContent());
+                if (!packName.equals(Flag.FAIL)) {
+                    sendLeftMsg("正在打开：" + userPurpose.getContent());
+                    Apk.openApp(context, packName);
 
-                }else {
-                    sendLeftMsg("未找到应用："+ userPurpose.getContent());
+                } else {
+                    sendLeftMsg("未找到应用：" + userPurpose.getContent());
                 }
                 break;
             case UserCommand.COMMAND_DELETE_APP:
-                if (packageInfos ==null || packageInfos.size() == 0) {
-                    packageInfos=Apk.getPackgeInfos(context);
+                if (packageInfos == null || packageInfos.size() == 0) {
+                    packageInfos = Apk.getPackagesInfos(context);
                 }
-                packName=Apk.getAppPackageName(context,packageInfos,userPurpose.getContent());
-                if (!packName.equals(Flag.FAIL)){
-                    sendLeftMsg("正在卸载："+userPurpose.getContent());
-                    Apk.unInstallApp(context,packName);
+                packName = Apk.getAppPackageName(context, packageInfos, userPurpose.getContent());
+                if (!packName.equals(Flag.FAIL)) {
+                    sendLeftMsg("正在卸载：" + userPurpose.getContent());
+                    Apk.unInstallApp(context, packName);
 
-                }else {
-                    sendLeftMsg("未找到应用："+ userPurpose.getContent());
+                } else {
+                    sendLeftMsg("未找到应用：" + userPurpose.getContent());
                 }
                 break;
             case UserCommand.COMMAND_SEARCH:
@@ -145,11 +178,11 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener{
                 Uri uri = Uri.parse("https://www.baidu.com/s?wd=" + userPurpose.getContent());
                 intent.setData(uri);
                 context.startActivity(intent);
-                sendLeftMsg("正在搜索："+userPurpose.getContent());
+                sendLeftMsg("正在搜索：" + userPurpose.getContent());
                 break;
             case UserCommand.COMMAND_TULING:
-               rx = ApiManage.getInstence().getTuLingService().getResult("962899116978d3f7465cabc86286d99d",userPurpose.getContent())
-                       .subscribeOn(Schedulers.io())
+                rx = ApiManage.getInstence().getTuLingService().getResult("962899116978d3f7465cabc86286d99d", userPurpose.getContent())
+                        .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<TuLing>() {
                             @Override
@@ -180,7 +213,7 @@ public class VoicePresenter  extends  Presenter implements RecognitionListener{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!rx.isUnsubscribed()){
+        if (!rx.isUnsubscribed()) {
             rx.unsubscribe();
         }
 

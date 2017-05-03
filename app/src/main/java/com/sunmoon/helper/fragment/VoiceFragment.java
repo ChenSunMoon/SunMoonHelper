@@ -35,6 +35,18 @@ public class VoiceFragment extends BaseFrgment implements ChatView{
         presenter.setView(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.startWakeUp();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.stopAll();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override

@@ -1,1 +1,1 @@
-include ':app', ':Recognition', ':SunUI', ':richeditor'
+include ':app', ':BaiduSdk', ':SunUI', ':richeditor'

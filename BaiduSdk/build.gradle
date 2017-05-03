@@ -23,4 +23,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/VoiceRecognition-2.1.20.jar')
+    compile files('libs/com.baidu.tts_2.3.0.jar')
 }

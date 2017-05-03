@@ -60,7 +60,7 @@ public class Apk {
         }
         return packageInfo!=null ?packageInfo.packageName: Flag.FAIL;
     }
-    public static List<PackageInfo> getPackgeInfos(Context context){
+    public static List<PackageInfo> getPackagesInfos(Context context){
         PackageManager packageManager;
         packageManager=context.getPackageManager();
         List<PackageInfo> packageInfos=packageManager.getInstalledPackages(0);

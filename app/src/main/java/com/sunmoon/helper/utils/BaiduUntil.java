@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class BaiduUntil  {
     public static String getRecResult(Bundle bundle){
         ArrayList<String> nbest =bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        String result = Arrays.toString(nbest.toArray(new String[nbest.size()])).replace("[", "").replace("]", "");
+        String result = Arrays.toString(nbest.toArray(new String[nbest.size()])).replace("[", "").replace("]", "").replaceAll("。","");
         return result;
     }
 }

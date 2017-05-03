@@ -23,7 +23,7 @@
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="@{()->voicePresenter.start()}"/>
+            android:onClick="@{()->voicePresenter.startRec()}"/>
     </RelativeLayout>
 
 </layout>

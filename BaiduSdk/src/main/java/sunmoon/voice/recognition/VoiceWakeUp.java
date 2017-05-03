@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class VoiceWakeUp {
    private EventManager mWakeUpManger;
-    private final String START_CMD="wp.start";
+    private final String START_CMD="wp.startRec";
     private final String STOP_CMD="wp.stop";
     private HashMap params;
     public VoiceWakeUp(Context context){

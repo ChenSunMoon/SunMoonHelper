@@ -67,7 +67,7 @@ public class Phone {
     /**
      * 查找联系人
      **/
-    public static List<PhoneInfo> getPhoneByName(List<PhoneInfo> phoneInfos,String name){
+    public static List<PhoneInfo> getPhonesByName(List<PhoneInfo> phoneInfos, String name){
         List<PhoneInfo> result=new ArrayList<>();
         for (int i = 0; i < phoneInfos.size(); i++) {
             if (HanyuPinyin.equalsLinePinYing(name,phoneInfos.get(i).getName()))

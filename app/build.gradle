@@ -29,7 +29,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //UI库
-    compile project(path: ':Recognition')
+    compile project(path: ':BaiduSdk')
     compile project(path: ':SunUI')
     //网络请求
     //可以单独使用，不需要依赖下方的扩展包
