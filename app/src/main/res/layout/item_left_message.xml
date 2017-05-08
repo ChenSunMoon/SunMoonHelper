@@ -29,7 +29,7 @@
             android:background="@drawable/ic_left_chat">
         <TextView
             android:id="@+id/tv"
-            android:minHeight="38dp"
+            android:minHeight="35dp"
             android:text="@{message.content}"
             android:textSize="15sp"
             android:lineSpacingExtra="2dp"

@@ -10,4 +10,7 @@ public interface ChatView extends View {
     public void sendMsg(Message message);
     public void receiveMsg(Message message);
     public void onRmsChanged(float v);
+    public void awakening();
 }
+
+

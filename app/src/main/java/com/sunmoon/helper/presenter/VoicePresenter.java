@@ -6,28 +6,22 @@ import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
-import android.util.AndroidRuntimeException;
 
 import com.baidu.speech.EventListener;
 import com.orhanobut.logger.Logger;
 import com.sunmoon.helper.api.ApiManage;
 import com.sunmoon.helper.common.Flag;
 import com.sunmoon.helper.model.Message;
-import com.sunmoon.helper.model.PhoneInfo;
+import com.sunmoon.helper.model.Phone;
 import com.sunmoon.helper.model.TuLing;
 import com.sunmoon.helper.model.UserCommand;
 import com.sunmoon.helper.utils.Apk;
 import com.sunmoon.helper.utils.BaiduUntil;
-import com.sunmoon.helper.utils.Phone;
+import com.sunmoon.helper.utils.PhoneUtil;
 import com.sunmoon.helper.utils.StringUtil;
 import com.sunmoon.helper.utils.UserPurpose;
 import com.sunmoon.helper.view.ChatView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
-
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -44,7 +38,7 @@ public class VoicePresenter extends Presenter implements RecognitionListener {
     private UserPurpose userPurpose;
     private ChatView view;
     private List<PackageInfo> packageInfos;
-    private List<PhoneInfo> phoneInfos;
+    private List<Phone> phoneInfos;
     private Context context;
      private Tts tts = new Tts();
     public VoicePresenter(Context context) {
@@ -55,6 +49,7 @@ public class VoicePresenter extends Presenter implements RecognitionListener {
             public void onEvent(String name, String params, byte[] bytes, int i, int i1) {
                 Logger.i("name:" + name);
                 if ("wp.data".equals(name)) { // 每次唤醒成功, 将会回调name=wp.data的时间, 被激活的唤醒词在params的word字段
+                    view.awakening();
                     startRec();
                 } else if ("wp.exit".equals(name)) {
                 }
@@ -128,19 +123,16 @@ public class VoicePresenter extends Presenter implements RecognitionListener {
         view.sendMsg(new Message(msg, 1));
     }
 
-    public Subscription rx;
-
-    private void handleResult(UserCommand userPurpose) {
-
+    public void handleResult(UserCommand userPurpose) {
         switch (userPurpose.getCommand()) {
             case UserCommand.COMMAND_CALLPHONE:
                 if (phoneInfos == null || phoneInfos.size() == 0) {
-                    phoneInfos = Phone.getPhoneInfos(context);
+                    phoneInfos = PhoneUtil.getPhoneInfos(context);
                 }
-                List<PhoneInfo> result = Phone.getPhonesByName(phoneInfos, userPurpose.getContent());
+                List<Phone> result = PhoneUtil.getPhonesByName(phoneInfos, userPurpose.getContent());
                 if (result.size() > 0) {
                     sendLeftMsg("正在为您呼叫: " + result.get(0).getName());
-                    Phone.callPerson(context, result.get(0).getNumber());
+                    PhoneUtil.callPerson(context, result.get(0).getNumber());
                 } else {
                     sendLeftMsg("未找到联系人:" + userPurpose.getContent());
                 }
@@ -181,7 +173,7 @@ public class VoicePresenter extends Presenter implements RecognitionListener {
                 sendLeftMsg("正在搜索：" + userPurpose.getContent());
                 break;
             case UserCommand.COMMAND_TULING:
-                rx = ApiManage.getInstence().getTuLingService().getResult("962899116978d3f7465cabc86286d99d", userPurpose.getContent())
+                Subscription rx = ApiManage.getInstence().getTuLingService().getResult("962899116978d3f7465cabc86286d99d", userPurpose.getContent())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<TuLing>() {
@@ -196,6 +188,7 @@ public class VoicePresenter extends Presenter implements RecognitionListener {
                                 sendLeftMsg(throwable.getMessage());
                             }
                         });
+                addSubscription(rx);
                 break;
         }
     }
@@ -213,9 +206,5 @@ public class VoicePresenter extends Presenter implements RecognitionListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!rx.isUnsubscribed()) {
-            rx.unsubscribe();
-        }
-
     }
 }

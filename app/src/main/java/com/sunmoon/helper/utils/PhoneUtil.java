@@ -10,8 +10,6 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 
-import com.sunmoon.helper.model.PhoneInfo;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
  * Created by SunMoon on 2016/11/1.
  */
 
-public class Phone {
+public class PhoneUtil {
     /**
      * 拨打某人电话
      **/
@@ -40,8 +38,8 @@ public class Phone {
     /**
      * 获取联系人列表
     **/
-    public static List<PhoneInfo> getPhoneInfos(Context context){
-        List<PhoneInfo> phoneList=new ArrayList<PhoneInfo>();
+    public static List<com.sunmoon.helper.model.Phone> getPhoneInfos(Context context){
+        List<com.sunmoon.helper.model.Phone> phoneList=new ArrayList<com.sunmoon.helper.model.Phone>();
         try {
             Cursor cursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
             String phoneNumber;
@@ -52,7 +50,7 @@ public class Phone {
                 phoneName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 //长度大于5不添加
                 if(phoneName.length()<5) {
-                    PhoneInfo phoneInfo = new PhoneInfo(phoneName, phoneNumber.replaceAll(" ",""));
+                    com.sunmoon.helper.model.Phone phoneInfo = new com.sunmoon.helper.model.Phone(phoneName, phoneNumber.replaceAll(" ",""));
                     phoneList.add(phoneInfo);
                 }
             }
@@ -67,8 +65,8 @@ public class Phone {
     /**
      * 查找联系人
      **/
-    public static List<PhoneInfo> getPhonesByName(List<PhoneInfo> phoneInfos, String name){
-        List<PhoneInfo> result=new ArrayList<>();
+    public static List<com.sunmoon.helper.model.Phone> getPhonesByName(List<com.sunmoon.helper.model.Phone> phoneInfos, String name){
+        List<com.sunmoon.helper.model.Phone> result=new ArrayList<>();
         for (int i = 0; i < phoneInfos.size(); i++) {
             if (HanyuPinyin.equalsLinePinYing(name,phoneInfos.get(i).getName()))
             {
@@ -79,7 +77,7 @@ public class Phone {
         {
             if(name.matches("[0-9]+"))
             {
-                result.add(new PhoneInfo(name,name));
+                result.add(new com.sunmoon.helper.model.Phone(name,name));
             }
         }
         return result;

@@ -2,11 +2,11 @@ package com.sunmoon.helper.model;
 /*
 联系人信息存储
  */
-public class PhoneInfo {
+public class Phone {
 	private String name;
 	private String number;
 
-	public PhoneInfo(String name, String number) {
+	public Phone(String name, String number) {
 		this.number=number;
 		this.name=name;
 	}

@@ -1,33 +1,13 @@
 package com.sunmoon.helper.presenter;
-
-import android.os.Bundle;
-
-import com.hwangjr.rxbus.RxBus;
 import com.sunmoon.helper.view.View;
+
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by lgp on 2015/9/4.
  */
 public abstract class Presenter {
-   public void onCreate (Bundle savedInstanceState){
-
-   }
-
-    void onResume(){
-
-    }
-
-    void onStart(){
-
-    }
-
-    void onPause(){
-
-    }
-
-    void onStop(){
-
-    }
 
     public void onDestroy(){
 
@@ -35,4 +15,20 @@ public abstract class Presenter {
    void  setView(View view){
 
    }
+    private CompositeSubscription mCompositeSubscription;
+
+    protected void addSubscription(Subscription s) {
+        if (this.mCompositeSubscription == null) {
+            this.mCompositeSubscription = new CompositeSubscription();
+        }
+        this.mCompositeSubscription.add(s);
+    }
+
+    public void unsubcrible() {
+
+        // TODO: 16/8/17 find when unsubcrible
+        if (this.mCompositeSubscription != null) {
+            this.mCompositeSubscription.unsubscribe();
+        }
+    }
 }

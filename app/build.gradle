@@ -32,9 +32,13 @@ dependencies {
     compile project(path: ':BaiduSdk')
     compile project(path: ':SunUI')
     //网络请求
+
     //可以单独使用，不需要依赖下方的扩展包
+
     //RxJava扩展支持，根据需要添加
+
     //下载管理和上传管理扩展，根据需要添加
+
     // 权限申请
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     compile files('libs/pinyin4j-2.5.0.jar')
@@ -58,4 +62,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.orhanobut:logger:1.15'
     testCompile 'junit:junit:4.12'
+    compile files('libs/tbs_sdk_v3.1.0.jar')
 }

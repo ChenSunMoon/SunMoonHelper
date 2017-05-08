@@ -23,7 +23,7 @@ import com.sunmoon.helper.view.ChatView;
  * Created by SunMoon on 2017/4/9.
  */
 
-public class VoiceFragment extends BaseFrgment implements ChatView{
+public class VoiceFragment extends BaseFragment implements ChatView{
     private ActivityVoiceBinding b;
     private VoiceAdapter adapter;
     private VoicePresenter presenter ;
@@ -45,6 +45,7 @@ public class VoiceFragment extends BaseFrgment implements ChatView{
     public void onPause() {
         super.onPause();
         presenter.stopAll();
+        presenter.unsubcrible();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -52,9 +53,7 @@ public class VoiceFragment extends BaseFrgment implements ChatView{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         b = DataBindingUtil.inflate(inflater,R.layout.activity_voice,container,false);
-
         adapter = new VoiceAdapter(getContext());
-
         LinearLayoutManager lineManager=new LinearLayoutManager(getContext());
         b.rvContent.setLayoutManager(lineManager);
         b.rvContent.setAdapter(adapter);
@@ -79,6 +78,11 @@ public class VoiceFragment extends BaseFrgment implements ChatView{
     @Override
     public void onRmsChanged(float v) {
         b.vVoice.setVolume(v/50);
+    }
+
+    @Override
+    public void awakening() {
+
     }
 
     /**

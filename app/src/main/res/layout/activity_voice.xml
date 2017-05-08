@@ -5,14 +5,14 @@
         <variable
             type="com.sunmoon.helper.presenter.VoicePresenter"
             name="voicePresenter"/>
-
         </data>
     <RelativeLayout
         style="@style/match_parent"
         android:background="@color/chat_back">
        <android.support.v7.widget.RecyclerView
            android:id="@+id/rv_content"
-           style="@style/match_width"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
            android:layout_above="@+id/v_voice"
            app:stackFromEnd="true"
            android:transitionGroup="true"
@@ -23,7 +23,7 @@
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="@{()->voicePresenter.startRec()}"/>
+            />
     </RelativeLayout>
 
 </layout>
