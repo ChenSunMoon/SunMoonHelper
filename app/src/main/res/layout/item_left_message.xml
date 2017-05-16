@@ -7,26 +7,16 @@
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/time"
-            android:text="@{message.time}"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/interval">
         <com.sunmoon.sunui.CircleImageView
             android:id="@+id/iv"
             style="@style/normal_image_view"
-            android:layout_below="@id/time"
-            android:background="@drawable/ic_voice"
+            android:src="@drawable/robot"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/interval"
             />
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/time"
-            android:layout_toRightOf="@id/iv"
-            android:background="@drawable/ic_left_chat">
+
         <TextView
             android:id="@+id/tv"
             android:minHeight="35dp"
@@ -34,12 +24,13 @@
             android:textSize="15sp"
             android:lineSpacingExtra="2dp"
             android:gravity="center|left"
-            android:paddingRight="6dp"
-            android:paddingLeft="10dp"
-            android:layout_centerInParent="true"
+            android:paddingRight="10dp"
+            android:paddingLeft="20dp"
             android:maxWidth="225dip"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-            </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_left_chat"
+            android:layout_toRightOf="@+id/iv"/>
+
     </RelativeLayout>
 </layout>

@@ -10,32 +10,47 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import rx.Observable;
+
 /**
  * Created by SunMoon on 2016/10/24.
  */
 
 public class VoiceWakeUp {
-   private EventManager mWakeUpManger;
-    private final String START_CMD="wp.startRec";
-    private final String STOP_CMD="wp.stop";
+    private EventManager mWakeUpManger;
+    private WakeUpListener wakeUpListener;
+    private EventListener eventListener = new EventListener() {
+        @Override
+        public void onEvent(String name, String params, byte[] bytes, int i, int i1) {
+            if (wakeUpListener != null) {
+                if ("wp.data".equals(name)) { // 每次唤醒成功, 将会回调name=wp.data的时间, 被激活的唤醒词在params的word字段
+                    wakeUpListener.success();
+                } else if ("wp.exit".equals(name)) {
+                    wakeUpListener.exit();
+                }
+            }
+
+        }
+    };
     private HashMap params;
-    public VoiceWakeUp(Context context){
+    public VoiceWakeUp(Context context) {
         mWakeUpManger = EventManagerFactory.create(context, "wp");
-        initWakeUp();
+        params = new HashMap(); // 设置唤醒资源, 唤醒资源请到 http://yuyin.baidu.com/wake#m4 来评估和导出
+        params.put("kws-file", "assets:///MyWakeUp.bin");
+        mWakeUpManger.registerListener(eventListener);
+
     }
 
-    public void initWakeUp() {
-        // 设置唤醒资源, 唤醒资源请到 http://yuyin.baidu.com/wake#m4 来评估和导出
-        params = new HashMap();
-        params.put("kws-file", "assets:///WakeUp.bin");
+    public void registerListener(WakeUpListener listener) {
+        this.wakeUpListener = listener;
     }
-    public void start(){
-        mWakeUpManger.send(START_CMD, new JSONObject(params).toString(), null, 0, 0);
+
+    public void start() {
+        mWakeUpManger.send("wp.start", new JSONObject(params).toString(), null, 0, 0);
     }
-    public void stop(){
-        mWakeUpManger.send(STOP_CMD, null, null, 0, 0);
+
+    public void stop() {
+        mWakeUpManger.send("wp.stop", null, null, 0, 0);
     }
-    public void callBack(EventListener ev){
-        mWakeUpManger.registerListener(ev);
-    }
+
 }

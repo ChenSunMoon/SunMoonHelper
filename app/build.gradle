@@ -62,5 +62,4 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.orhanobut:logger:1.15'
     testCompile 'junit:junit:4.12'
-    compile files('libs/tbs_sdk_v3.1.0.jar')
 }

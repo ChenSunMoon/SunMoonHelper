@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            type="com.sunmoon.helper.presenter.VoicePresenter"
-            name="voicePresenter"/>
+            type="com.sunmoon.helper.presenter.RobotPresenter"
+            name="present"/>
         </data>
     <RelativeLayout
         style="@style/match_parent"
@@ -13,17 +13,25 @@
            android:id="@+id/rv_content"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           android:layout_above="@+id/v_voice"
+           android:layout_above="@+id/fb_start"
            app:stackFromEnd="true"
            android:transitionGroup="true"
            />
-        <com.sunmoon.sunui.VoiceView
-            android:id="@+id/v_voice"
+        <FrameLayout
+            android:id="@+id/fl_robot_content"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent">
+            </FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fb_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/interval_big"
+            android:layout_marginBottom="@dimen/interval_big"
+            android:onClick="@{()->present.startRecEvent()}"
+            android:src="@drawable/ic_voice"/>
     </RelativeLayout>
 
 </layout>

@@ -1,4 +1,4 @@
-package com.sunmoon.helper;
+package com.sunmoon.helper.activity;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -16,9 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sunmoon.helper.activity.BaseActivity;
-import com.sunmoon.helper.activity.NoteActivity;
-import com.sunmoon.helper.fragment.VoiceFragment;
+import com.sunmoon.helper.R;
+import com.sunmoon.helper.fragment.RobotFragment;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,7 +42,7 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        changeFragment(VoiceFragment.newInstance(),"语音助手");
+        changeFragment(RobotFragment.newInstance(),"语音助手");
         checkPermissions();
 
     }
@@ -102,7 +101,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
       if (id == R.id.nav_voice) {
-          changeFragment(VoiceFragment.newInstance(),"语音助手");
+          changeFragment(RobotFragment.newInstance(),"语音助手");
         } else if (id == R.id.nav_note) {
           Intent intent =new Intent(this, NoteActivity.class);
           startActivity(intent);

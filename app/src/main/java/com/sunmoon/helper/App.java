@@ -4,11 +4,8 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.orhanobut.logger.Logger;
-import com.sunmoon.helper.callBack.WeexImageAdapter;
 import com.sunmoon.helper.model.DaoMaster;
 import com.sunmoon.helper.model.DaoSession;
-import com.taobao.weex.InitConfig;
-import com.taobao.weex.WXSDKEngine;
 
 import sunmoon.voice.recognition.SpeechOcr;
 
@@ -29,10 +26,6 @@ public class App extends Application {
         SQLiteDatabase db=helper.getWritableDatabase();
         DaoMaster daoMaster=new DaoMaster(db);
         daoSession=daoMaster.newSession();
-
-        // 初始化Weex
-        InitConfig config=new InitConfig.Builder().setImgAdapter(new WeexImageAdapter()).build();
-        WXSDKEngine.initialize(this,config);
 
     }
     private static DaoSession daoSession;

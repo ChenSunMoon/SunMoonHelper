@@ -56,6 +56,16 @@ public class NoteEditPresenter extends Presenter {
         this.view = (NoteEditView) view;
     }
 
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onResume() {
+
+    }
+
     public void undo() {
         view.undo();
     }

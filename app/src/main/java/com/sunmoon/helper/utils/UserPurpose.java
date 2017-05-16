@@ -1,41 +1,51 @@
 package com.sunmoon.helper.utils;
 
-import com.sunmoon.helper.model.AnalyzeCommand;
+import android.content.Intent;
+
+import com.sunmoon.helper.model.Purpose;
+import com.sunmoon.helper.model.Sentence;
 import com.sunmoon.helper.model.UserCommand;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /*
  *根据字符串分析用户意图
  */
 public class UserPurpose {
-    private List<AnalyzeCommand> list;
-    public UserPurpose() {
-        this.list=new ArrayList<AnalyzeCommand>();
-        initData();
+    private static List<Purpose> list = new ArrayList<>();
+
+    static  {
+        list.add(new Purpose(UserCommand.COMMAND_SEARCH, new String[]{"搜索", "搜一下", "搜", "百度"}));
+        list.add(new Purpose(UserCommand.COMMAND_CALL_PHONE, new String[]{"打电话给", "呼叫", "打电话", "打给"}));
+        list.add(new Purpose(UserCommand.COMMAND_OPEN_APP, new String[]{"打开", "启动"}));
+        list.add(new Purpose(UserCommand.COMMAND_DELETE_APP, new String[]{"卸载", "删除"}));
     }
 
-    private void initData() {
-        this.list.add(new AnalyzeCommand(UserCommand.COMMAND_SEARCH, new String[]{"搜索", "搜一下", "搜", "百度"}));
-        this.list.add(new AnalyzeCommand(UserCommand.COMMAND_CALLPHONE, new String[]{"打电话给", "呼叫", "打电话", "打给"}));
-        this.list.add(new AnalyzeCommand(UserCommand.COMMAND_OPEN_APP, new String[]{"打开", "启动"}));
-        this.list.add(new AnalyzeCommand(UserCommand.COMMAND_DELETE_APP, new String[]{"卸载", "删除"}));
-    }
-
-    public UserCommand getUserPurpose(String content) {
+    public UserCommand getUserCommand(String content) {
+        UserCommand userCommand = new UserCommand();
         for (int i=0;i<list.size();i++)
         {
-            AnalyzeCommand item=list.get(i);
-            for (int j=0;j<item.getModels().length;j++) {
-                if (content.contains(item.getModels()[j])) {
-                    String cmdCon = content.replace(item.getModels()[j], "");
-                    return new UserCommand(item.getCommand(), cmdCon);
+            Purpose item = list.get(i);
+            String[] commands = item.getCommands();
+            for (int j=0;j<commands.length;j++) {
+                if (content.contains(item.getCommands()[j])) {
+                    String command = commands[j];
+                    Sentence sentence = Sentence.create(content,command);
+                    userCommand.setSentence(sentence);
+                    userCommand.setType(item.getType());
+                    return userCommand;
                 }
             }
         }
-        return UserCommand.getDefaultCommand(content);
+        Sentence sentence =  new Sentence();
+        sentence.setTarget(content);
+        userCommand.setSentence(sentence);
+        userCommand.setType(UserCommand.COMMAND_CHAT);
+        return userCommand;
     }
 
 }

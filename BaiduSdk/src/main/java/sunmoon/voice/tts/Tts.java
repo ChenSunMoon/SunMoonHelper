@@ -16,7 +16,6 @@ import com.baidu.tts.client.TtsMode;
 public class Tts implements SpeechSynthesizerListener {
     public  SpeechSynthesizer speechRecognizer;
     public  boolean isSpeaking;
-    public  boolean isNeedSpeak;
     public  void init(Context context){
         speechRecognizer= SpeechSynthesizer.getInstance();
         speechRecognizer.setContext(context);

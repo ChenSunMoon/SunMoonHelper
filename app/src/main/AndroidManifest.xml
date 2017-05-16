@@ -18,7 +18,7 @@
         <activity android:name=".activity.NoteActivity" />
         <activity android:name=".activity.NoteEditActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

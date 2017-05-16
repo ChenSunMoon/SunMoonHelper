@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<EditText
+    android:id="@+id/ed_remind"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height_big"
+    android:layout_margin="@dimen/interval"/>
+    <TimePicker
+        android:id="@+id/tp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/interval"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/interval">
+        <Button
+            android:layout_width="0px"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="确定"/>
+        <Button
+            android:layout_width="0px"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="取消"/>
+    </LinearLayout>
+</LinearLayout>
+</layout>

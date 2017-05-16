@@ -28,12 +28,12 @@ public class PhoneUtil {
     /**
      * 直接拨打电话
      **/
-    public static void fastCallPerson(Activity activity, String name) {
+    public static void fastCallPerson(Context context, String name) {
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + name));
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        activity.startActivity(intent);
+        context.startActivity(intent);
     }
     /**
      * 获取联系人列表

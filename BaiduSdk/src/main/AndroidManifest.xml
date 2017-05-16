@@ -7,8 +7,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:launchMode="singleInstance">
         <meta-data android:name="com.baidu.speech.APP_ID" android:value="8769143"/>
         <meta-data android:name="com.baidu.speech.API_KEY" android:value="bv7mxKITLI7m1ir97oVzKzHC"/>
         <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="f716f97dc8b2fe1dd5fb9c4d4c359b92"/>

@@ -2,6 +2,7 @@ package com.sunmoon.helper.presenter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
@@ -22,13 +23,11 @@ import java.util.List;
  * Created by SunMoon on 2017/1/2.
  */
 
-public class NotePresenter extends Presenter {
-    private NoteView noteView;
+public class NotePresenter extends Presenter<NoteView> {
+
     private NoteInfoDao dao;
-    private Activity activity;
     private List<NoteInfo> notes;
-    public NotePresenter(Activity activity){
-        this.activity=activity;
+    public NotePresenter(Context context){
         dao=App.getDaosession().getNoteInfoDao();
         
     }
@@ -40,15 +39,21 @@ public class NotePresenter extends Presenter {
          dao.update(note);
          for (int i =0; i<notes.size(); i++){
              if (note.getId() == notes.get(i).getId()){
-                 noteView.updateNote(i,note);
+                 v.updateNote(i,note);
                  break;
              }
          }
 
      }
+
+    @Override
+    void setView(NoteView v) {
+        this.v = v;
+    }
+
     public void initNotes(){
         notes= dao.loadAll();
-        noteView.initNotes(notes);
+        v.initNotes(notes);
     }
     public void editNote(View view,NoteInfo note){
         Intent intent=new Intent(view.getContext(),NoteEditActivity.class);
@@ -64,7 +69,7 @@ public class NotePresenter extends Presenter {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dao.delete(note);
-                        noteView.removeNote(notes.indexOf(note));
+                        v.removeNote(notes.indexOf(note));
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -79,20 +84,23 @@ public class NotePresenter extends Presenter {
     }
 
     public NoteView getNoteView() {
-        return noteView;
+        return v;
     }
 
     public void setNoteView(NoteView noteView) {
-        this.noteView = noteView;
+        this.v = noteView;
     }
-
-
-
 
     @Override
     public void onDestroy() {
 
     }
+
+    @Override
+    public void onResume() {
+
+    }
+
     public void addNewNote(View v){
         Intent intent=new Intent(v.getContext(), NoteEditActivity.class);
         v.getContext().startActivity(intent);

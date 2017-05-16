@@ -1,17 +1,11 @@
 package sunmoon.voice.recognition;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
-import android.util.AndroidRuntimeException;
-import android.util.Log;
 
-import com.baidu.speech.EventListener;
-import com.baidu.speech.EventManager;
-import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.VoiceRecognitionService;
 
 import org.json.JSONArray;
@@ -26,9 +20,7 @@ import java.util.HashMap;
 
 public class SpeechOcr {
     private static SpeechOcr instance;
-    public  static final String RESULT= SpeechRecognizer.RESULTS_RECOGNITION;
     private static SpeechRecognizer mSpeechRecognizer;
-    private static EventManager eventManager;
     public  static Intent mIntent;
     public static SpeechOcr getInstance(){
             if (instance==null){
@@ -39,8 +31,8 @@ public class SpeechOcr {
 
     public void init(Context context){
         mIntent= initConfigIntent();
+        // 初始化语音识别
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(context, new ComponentName(context,VoiceRecognitionService.class));
-        eventManager = EventManagerFactory.create(context, "wp");
     }
     public static void setRecognitionListener(RecognitionListener listener){
         mSpeechRecognizer.setRecognitionListener(listener);
@@ -48,8 +40,9 @@ public class SpeechOcr {
     public static void startRec(){
         mSpeechRecognizer.startListening(mIntent);
     }
-    public static void startDialogRec(Activity activity,int flag){
-        activity.startActivityForResult(mIntent,flag);
+    public static Intent startDialogRec(){
+        mIntent.setAction("com.baidu.action.RECOGNIZE_SPEECH");
+        return mIntent;
     }
     public static void stopRec(){
         mSpeechRecognizer.stopListening();
@@ -86,19 +79,8 @@ public class SpeechOcr {
         intent.putExtra("slot-data", slotData.toString());
         return intent;
     }
-    public static void registerWakeUpListener(EventListener listener){
-        eventManager.registerListener(listener);
-    }
-    public static void startWakeUp(){
-        HashMap params = new HashMap();
-        params.put("kws-file", "assets:///MyWakeUp.bin");
-        eventManager.send("wp.start", new JSONObject(params).toString(), null, 0, 0);
-    }
-    public static void stopWakeUp(){
-        eventManager.send("wp.stop", null, null, 0, 0);
-    }
+
     public static void stopAll(){
-        stopWakeUp();
         stopRec();
     }
 }

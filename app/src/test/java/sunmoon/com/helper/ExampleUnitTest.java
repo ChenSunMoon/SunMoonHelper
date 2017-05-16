@@ -23,5 +23,10 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
+        String  content = "打电话给爸爸";
+        String [] r = content.split("打电话给");
+
+        System.out.println(r[0]);
+        System.out.println(r[1]);
     }
 }
