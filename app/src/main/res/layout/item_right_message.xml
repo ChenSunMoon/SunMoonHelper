@@ -12,7 +12,7 @@
         <com.sunmoon.sunui.CircleImageView
             android:id="@+id/iv"
             style="@style/normal_image_view"
-            android:src="@drawable/ic_voice"
+            android:src="@drawable/my_header"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/interval_micro"

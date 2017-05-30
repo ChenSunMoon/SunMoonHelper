@@ -31,6 +31,7 @@ dependencies {
     //UI库
     compile project(path: ':BaiduSdk')
     compile project(path: ':SunUI')
+    compile 'com.dewarder:holdingbutton:0.0.9'
     //网络请求
 
     //可以单独使用，不需要依赖下方的扩展包
@@ -50,7 +51,6 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.greenrobot:greendao:3.2.0'
-    compile 'jp.wasabeef:richeditor-android:1.2.1'
     compile 'com.hwangjr.rxbus:rxbus:1.0.5'
     compile 'joda-time:joda-time:2.3'
     compile 'com.alibaba:fastjson:1.1.46.android'

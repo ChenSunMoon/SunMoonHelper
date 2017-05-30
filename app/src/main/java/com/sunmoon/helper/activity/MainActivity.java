@@ -105,12 +105,6 @@ public class MainActivity extends BaseActivity
           changeFragment(RobotFragment.newInstance(),"语音助手");
         } else if (id == R.id.nav_remind) {
           changeFragment(MyRemindFragment.newInstance(),"我的提醒");
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -18,8 +18,6 @@
         android:theme="@style/AppTheme"
         >
 
-        <activity android:name=".activity.NoteActivity" />
-        <activity android:name=".activity.NoteEditActivity" />
         <activity android:name=".activity.FragmentActivity" />
         <activity
             android:name=".activity.MainActivity"
