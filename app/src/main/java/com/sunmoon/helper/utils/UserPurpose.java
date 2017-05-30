@@ -23,6 +23,7 @@ public class UserPurpose {
         list.add(new Purpose(UserCommand.COMMAND_CALL_PHONE, new String[]{"打电话给", "呼叫", "打电话", "打给"}));
         list.add(new Purpose(UserCommand.COMMAND_OPEN_APP, new String[]{"打开", "启动"}));
         list.add(new Purpose(UserCommand.COMMAND_DELETE_APP, new String[]{"卸载", "删除"}));
+        list.add(new Purpose(UserCommand.COMMAND_REMIND, new String[]{"提醒我","提醒"}));
     }
 
     public UserCommand getUserCommand(String content) {
@@ -41,6 +42,7 @@ public class UserPurpose {
                 }
             }
         }
+        // 默认是聊天
         Sentence sentence =  new Sentence();
         sentence.setTarget(content);
         userCommand.setSentence(sentence);

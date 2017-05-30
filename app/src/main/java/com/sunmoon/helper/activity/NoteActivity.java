@@ -64,7 +64,7 @@ public class NoteActivity extends BaseActivity implements NoteView {
 
     @Override
     public void updateNote(int i,NoteInfo note) {
-      adapter.updateNote(i,note);
+      adapter.update(i,note);
     }
     @Override
     public void removeNote(int i) {

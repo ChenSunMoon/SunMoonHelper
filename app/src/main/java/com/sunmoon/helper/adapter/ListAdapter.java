@@ -45,7 +45,7 @@ public class ListAdapter<T1, T2 extends ViewDataBinding> extends RecyclerView.Ad
         list.remove(i);
         notifyItemRemoved(i);
     }
-    public void updateNote(int i,T1 item){
+    public void update(int i, T1 item){
         this.list.set(i,item);
         this.notifyItemChanged(i);
     }

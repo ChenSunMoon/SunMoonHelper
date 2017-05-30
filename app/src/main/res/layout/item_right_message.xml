@@ -8,14 +8,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/interval">
+        android:layout_marginTop="@dimen/interval_micro">
         <com.sunmoon.sunui.CircleImageView
             android:id="@+id/iv"
             style="@style/normal_image_view"
             android:src="@drawable/ic_voice"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/interval"
+            android:layout_marginRight="@dimen/interval_micro"
             />
         <TextView
             android:id="@+id/tv"

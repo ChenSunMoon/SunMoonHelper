@@ -31,9 +31,10 @@ public class RobotFragment extends BaseFragment<ActivityVoiceBinding,RobotPresen
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         p = new RobotPresenter(getActivity());
         p.setView(this);
+        adapter=new VoiceAdapter(getContext());
+        super.onCreate(savedInstanceState);
     }
 
 
@@ -49,7 +50,6 @@ public class RobotFragment extends BaseFragment<ActivityVoiceBinding,RobotPresen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         b = DataBindingUtil.inflate(inflater,R.layout.activity_voice,container,false);
-        adapter = new VoiceAdapter(getContext());
         LinearLayoutManager lineManager=new LinearLayoutManager(getContext());
         b.rvContent.setLayoutManager(lineManager);
         b.rvContent.setAdapter(adapter);
@@ -83,14 +83,13 @@ public class RobotFragment extends BaseFragment<ActivityVoiceBinding,RobotPresen
     }
 
     @Override
-    public void changeSearchPage(Fragment fragment) {
+    public void openFragment(Fragment fragment) {
         changeFragment(fragment);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        p.onActivityResult(requestCode, resultCode, data);
     }
 
 

@@ -29,7 +29,7 @@ public class App extends Application {
 
     }
     private static DaoSession daoSession;
-    public static DaoSession getDaosession(){
+    public static DaoSession getDaoSession(){
            return daoSession;
     }
 

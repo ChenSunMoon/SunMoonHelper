@@ -3,14 +3,22 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="item_height_big">67dp</dimen>
-    <dimen name="text_size_big">16sp</dimen>
-    <dimen name="text_size_normal">13sp</dimen>
-    <dimen name="interval">9.6dp</dimen>
-    <dimen name="text_size_small">13sp</dimen>
-    <dimen name="interval_bigger">17dp</dimen>
+
+<!--interval-->
+    <dimen name="interval_micro">9.6dp</dimen>
+    <dimen name="interval_medium">12dp</dimen>
+    <dimen name="interval_large">17dp</dimen>
+    <dimen name="interval_big">24dp</dimen>
     <dimen name="bar_height_normal">48dp</dimen>
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="interval_big">24dp</dimen>
+
+
+    <!--textSize-->
+    <dimen name="text_size_micro">13sp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+
 </resources>

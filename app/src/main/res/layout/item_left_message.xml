@@ -8,13 +8,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/interval">
+        android:layout_marginTop="@dimen/interval_micro">
         <com.sunmoon.sunui.CircleImageView
             android:id="@+id/iv"
             style="@style/normal_image_view"
             android:src="@drawable/robot"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/interval"
+            android:layout_marginLeft="@dimen/interval_micro"
             />
 
         <TextView

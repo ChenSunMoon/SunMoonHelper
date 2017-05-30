@@ -6,6 +6,7 @@ import android.util.LogPrinter;
 
 import com.sunmoon.helper.api.ApiManage;
 import com.sunmoon.helper.model.TuLing;
+import com.sunmoon.helper.presenter.RemindPresenter;
 
 import org.junit.Test;
 
@@ -23,10 +24,6 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        String  content = "打电话给爸爸";
-        String [] r = content.split("打电话给");
-
-        System.out.println(r[0]);
-        System.out.println(r[1]);
+        RemindPresenter dd =new RemindPresenter();
     }
 }

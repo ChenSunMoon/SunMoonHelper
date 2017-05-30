@@ -1,6 +1,8 @@
 package com.sunmoon.helper.presenter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import com.sunmoon.helper.view.View;
 
@@ -52,5 +54,12 @@ public abstract class Presenter <T extends View> {
 
 
     public void onStart() {
+    }
+
+    public void onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    }
+
+    public void onViewCreated(android.view.View view, Bundle savedInstanceState) {
     }
 }

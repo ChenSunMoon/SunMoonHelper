@@ -14,7 +14,7 @@ public interface ChatView extends View {
     public void receiveMsg(Message message);
     public void onRmsChanged(float v);
 
-    public void  changeSearchPage(Fragment fragment);
+    public void openFragment(Fragment fragment);
     void startRecDialog(Intent intent,int rec_code);
 }
 

@@ -9,6 +9,7 @@ import android.speech.RecognitionListener;
 
 import com.sunmoon.helper.api.ApiManage;
 import com.sunmoon.helper.common.Flag;
+import com.sunmoon.helper.fragment.RemindFragment;
 import com.sunmoon.helper.fragment.WebSearchFragment;
 import com.sunmoon.helper.model.Message;
 import com.sunmoon.helper.model.Phone;
@@ -77,11 +78,6 @@ public class RobotPresenter extends Presenter<ChatView> implements RecognitionLi
     public void stopAll(){
         SpeechOcr.stopAll();
     }
-@Override
-    public void setView(ChatView view) {
-        this.v = view;
-    }
-
     @Override
     public void onReadyForSpeech(Bundle bundle) {
 
@@ -174,7 +170,11 @@ public class RobotPresenter extends Presenter<ChatView> implements RecognitionLi
                 break;
             case UserCommand.COMMAND_SEARCH:
                 Fragment fragment = WebSearchFragment.newInstance(target);
-                v.changeSearchPage(fragment);
+                v.openFragment(fragment);
+                break;
+            case UserCommand.COMMAND_REMIND:
+                fragment = RemindFragment.newInstance(userCommand.getSentence().getQualifier(),userCommand.getSentence().getTarget());
+                v.openFragment(fragment);
                 break;
             case UserCommand.COMMAND_CHAT:
                 Subscription rx = ApiManage.getInstence().getTuLingService().getResult(com.sunmoon.helper.common.TuLing.API_KEY, target)

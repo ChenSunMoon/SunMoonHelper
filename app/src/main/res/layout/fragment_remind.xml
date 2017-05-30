@@ -1,31 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable
+            name="presenter"
+            type="com.sunmoon.helper.presenter.RemindPresenter"/>
+        </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBack">
 <EditText
     android:id="@+id/ed_remind"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height_big"
-    android:layout_margin="@dimen/interval"/>
+    android:layout_margin="@dimen/interval_micro"
+    android:text="@={presenter.remindContent}"
+    android:hint="提醒内容"
+    android:textColorHint="@color/grey"
+    />
     <TimePicker
         android:id="@+id/tp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/interval"/>
+        android:layout_margin="@dimen/interval_micro"
+        />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/interval">
+        android:layout_height="fill_parent"
+        android:layout_margin="@dimen/interval_micro">
         <Button
             android:layout_width="0px"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="确定"/>
+            android:text="确定"
+            android:onClick="@{() ->presenter.confirmRemind()}"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_medium"
+            android:background="@drawable/bk_bt_confirm"
+            android:layout_marginRight="5dp"/>
         <Button
             android:layout_width="0px"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_size_medium"
+            android:onClick="@{() ->presenter.cancel()}"
+            android:background="@drawable/bk_bt_cancel"
+            android:layout_marginLeft="5dp"
             android:text="取消"/>
     </LinearLayout>
 </LinearLayout>

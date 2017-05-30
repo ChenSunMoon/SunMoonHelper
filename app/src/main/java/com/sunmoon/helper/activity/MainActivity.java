@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sunmoon.helper.R;
+import com.sunmoon.helper.fragment.MyRemindFragment;
 import com.sunmoon.helper.fragment.RobotFragment;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -102,9 +103,8 @@ public class MainActivity extends BaseActivity
 
       if (id == R.id.nav_voice) {
           changeFragment(RobotFragment.newInstance(),"语音助手");
-        } else if (id == R.id.nav_note) {
-          Intent intent =new Intent(this, NoteActivity.class);
-          startActivity(intent);
+        } else if (id == R.id.nav_remind) {
+          changeFragment(MyRemindFragment.newInstance(),"我的提醒");
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -124,4 +124,5 @@ public class MainActivity extends BaseActivity
         ft.commit();
         setTitle(name);
     }
+
 }

@@ -1,22 +1,15 @@
 package com.sunmoon.helper.presenter;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hwangjr.rxbus.RxBus;
-import com.hwangjr.rxbus.annotation.Produce;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
 import com.sunmoon.helper.App;
 import com.sunmoon.helper.model.NoteInfo;
 import com.sunmoon.helper.model.NoteInfoDao;
 import com.sunmoon.helper.utils.TimeUtil;
 import com.sunmoon.helper.view.NoteEditView;
 import com.sunmoon.helper.view.View;
-
-import org.joda.time.DateTime;
-import org.joda.time.JodaTimePermission;
 
 /**
  * Created by SunMoon on 2017/1/5.
@@ -30,7 +23,7 @@ public class NoteEditPresenter extends Presenter {
     public final static String TAG_UPDATE_NOTE="TAG_UPDATE_NOTE";
     public NoteEditPresenter(Activity context) {
         this.context=context;
-        dao=App.getDaosession().getNoteInfoDao();
+        dao=App.getDaoSession().getNoteInfoDao();
 
     }
     public void initNote() {

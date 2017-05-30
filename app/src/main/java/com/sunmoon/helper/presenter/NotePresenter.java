@@ -1,6 +1,5 @@
 package com.sunmoon.helper.presenter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,7 +27,7 @@ public class NotePresenter extends Presenter<NoteView> {
     private NoteInfoDao dao;
     private List<NoteInfo> notes;
     public NotePresenter(Context context){
-        dao=App.getDaosession().getNoteInfoDao();
+        dao=App.getDaoSession().getNoteInfoDao();
         
     }
      @Subscribe(
@@ -47,7 +46,7 @@ public class NotePresenter extends Presenter<NoteView> {
      }
 
     @Override
-    void setView(NoteView v) {
+    public void setView(NoteView v) {
         this.v = v;
     }
 
@@ -57,7 +56,7 @@ public class NotePresenter extends Presenter<NoteView> {
     }
     public void editNote(View view,NoteInfo note){
         Intent intent=new Intent(view.getContext(),NoteEditActivity.class);
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         intent.putExtra("note", gson.toJson(note,NoteInfo.class));
         view.getContext().startActivity(intent);
     }
@@ -78,8 +77,6 @@ public class NotePresenter extends Presenter<NoteView> {
                         dialogInterface.dismiss();
                     }
                 }).show();
-
-
         return true;
     }
 

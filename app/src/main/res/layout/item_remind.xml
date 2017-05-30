@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="remind"
+            type="com.sunmoon.helper.model.Remind"/>
+        <variable
+        name="openRemind"
+        type="android.view.View.OnClickListener"/>
+        <variable
+            name="deleteRemind"
+            type="android.view.View.OnLongClickListener"/>
+        <import type="com.sunmoon.helper.utils.TimeUtil"/>
+        </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="1dp"
+        android:layout_margin="6dp"
+        android:background="@drawable/list_item_back"
+        android:onClick="@{openRemind}"
+        app:onLongClick="@{deleteRemind}"
+        >
+<RelativeLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="@dimen/interval_micro"
+   >
+    <TextView
+        android:id="@+id/tv_remind_time"
+        android:text="@{TimeUtil.fromNow(remind.time)}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="@dimen/text_size_micro"
+        android:textColor="@color/grey"
+        />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{remind.content}"
+        android:layout_below="@+id/tv_remind_time"
+        />
+    <Switch
+        android:layout_below="@+id/tv_content"
+        android:id="@+id/sw_complete"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="@{remind.status==1 ?true:false }"
+       />
+</RelativeLayout>
+    </android.support.v7.widget.CardView>
+    </layout>

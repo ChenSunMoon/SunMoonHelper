@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_voice"
             android:title="语音助手" />
         <item
-            android:id="@+id/nav_note"
+            android:id="@+id/nav_remind"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="日记" />
+            android:title="我的提醒" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"

@@ -11,6 +11,7 @@ public class UserCommand {
     public static final int COMMAND_CALL_PHONE = 3;// 打电话
     public static final int COMMAND_OPEN_APP = 4;// 打开APP
     public static final int COMMAND_DELETE_APP = 5 ;// 卸载APP
+    public static final int COMMAND_REMIND = 6;// 卸载APP
     private Sentence sentence;
     private int type; //命令类型
 
