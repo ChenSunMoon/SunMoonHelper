@@ -16,24 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunmoon.helper.R;
-import com.sunmoon.helper.adapter.VoiceAdapter;
 import com.sunmoon.helper.databinding.ActivityVoiceBinding;
 import com.sunmoon.helper.model.Message;
-import com.sunmoon.helper.presenter.RobotPresenter;
+import com.sunmoon.helper.presenter.HelperPresenter;
 import com.sunmoon.helper.view.ChatView;
 
 /**
  * Created by SunMoon on 2017/4/9.
  */
 
-public class RobotFragment extends BaseFragment<ActivityVoiceBinding,RobotPresenter> implements ChatView{
-    private VoiceAdapter adapter;
+public class HelperFragment extends BaseFragment<ActivityVoiceBinding,HelperPresenter> implements ChatView{
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        p = new RobotPresenter(getActivity());
-        p.setView(this);
-        adapter=new VoiceAdapter(getContext());
+        p = new HelperPresenter(getActivity());
         super.onCreate(savedInstanceState);
     }
 
@@ -41,7 +37,6 @@ public class RobotFragment extends BaseFragment<ActivityVoiceBinding,RobotPresen
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
 
@@ -52,39 +47,16 @@ public class RobotFragment extends BaseFragment<ActivityVoiceBinding,RobotPresen
         b = DataBindingUtil.inflate(inflater,R.layout.activity_voice,container,false);
         LinearLayoutManager lineManager=new LinearLayoutManager(getContext());
         b.rvContent.setLayoutManager(lineManager);
-        b.rvContent.setAdapter(adapter);
+        b.rvContent.setAdapter(p.getAdapter());
         b.setPresent(p);
         return b.getRoot();
     }
     public static Fragment newInstance(){
-        return new RobotFragment();
-    }
-
-    @Override
-    public void sendMsg(Message message) {
-        if (fragment != null){
-            getChildFragmentManager().beginTransaction().remove(fragment).commit();
-            fragment = null;
-
-        }
-        adapter.addMessage(message);
-        smoothBottom();
-    }
-
-    @Override
-    public void receiveMsg(Message message) {
-        adapter.addMessage(message);
-        smoothBottom();
+        return new HelperFragment();
     }
 
     @Override
     public void onRmsChanged(float v) {
-
-    }
-
-    @Override
-    public void openFragment(Fragment fragment) {
-        changeFragment(fragment);
     }
 
     @Override
@@ -102,16 +74,10 @@ public class RobotFragment extends BaseFragment<ActivityVoiceBinding,RobotPresen
     /**
      * 滑动到底部
      * */
-    private void smoothBottom(){
-        b.rvContent.smoothScrollToPosition(adapter.getItemCount()-1);
+    @Override
+    public void smoothBottom(){
+        b.rvContent.smoothScrollToPosition(b.rvContent.getAdapter().getItemCount()-1);
     }
     private Fragment fragment;
 
-    public void changeFragment(Fragment fragment){
-        this.fragment =fragment;
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.fl_robot_content, this.fragment);
-        ft.commit();
-    }
 }

@@ -1,20 +1,8 @@
 package sunmoon.com.helper;
 
-import android.provider.Settings;
-import android.util.Log;
-import android.util.LogPrinter;
-
-import com.sunmoon.helper.api.ApiManage;
-import com.sunmoon.helper.model.TuLing;
-import com.sunmoon.helper.presenter.RemindPresenter;
+import com.sunmoon.helper.presenter.EditRemindViewModel;
 
 import org.junit.Test;
-
-import rx.Scheduler;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -24,6 +12,6 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        RemindPresenter dd =new RemindPresenter();
+        EditRemindViewModel dd =new EditRemindViewModel();
     }
 }

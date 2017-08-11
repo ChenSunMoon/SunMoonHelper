@@ -10,11 +10,8 @@ import com.sunmoon.helper.model.Message;
  */
 
 public interface ChatView extends View {
-    public void sendMsg(Message message);
-    public void receiveMsg(Message message);
     public void onRmsChanged(float v);
-
-    public void openFragment(Fragment fragment);
+    public void smoothBottom();
     void startRecDialog(Intent intent,int rec_code);
 }
 

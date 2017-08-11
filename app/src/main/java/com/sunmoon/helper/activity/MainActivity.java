@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -18,7 +17,7 @@ import android.view.MenuItem;
 
 import com.sunmoon.helper.R;
 import com.sunmoon.helper.fragment.MyRemindFragment;
-import com.sunmoon.helper.fragment.RobotFragment;
+import com.sunmoon.helper.fragment.HelperFragment;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,7 +42,7 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        changeFragment(RobotFragment.newInstance(),"语音助手");
+        changeFragment(HelperFragment.newInstance(),"语音助手");
         checkPermissions();
 
     }
@@ -102,7 +101,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
       if (id == R.id.nav_voice) {
-          changeFragment(RobotFragment.newInstance(),"语音助手");
+          changeFragment(HelperFragment.newInstance(),"语音助手");
         } else if (id == R.id.nav_remind) {
           changeFragment(MyRemindFragment.newInstance(),"我的提醒");
         }

@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +13,13 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.sunmoon.helper.R;
-import com.sunmoon.helper.activity.FragmentActivity;
+import com.sunmoon.helper.activity.EditRemindActivity;
 import com.sunmoon.helper.adapter.ListAdapter;
 import com.sunmoon.helper.databinding.FragmentMyRemindBinding;
 import com.sunmoon.helper.databinding.ItemRemindBinding;
 import com.sunmoon.helper.model.Remind;
 import com.sunmoon.helper.presenter.MyRemindPresenter;
 import com.sunmoon.helper.view.MyRemindView;
-import com.sunmoon.helper.widget.RecycleViewDivider;
 
 import java.util.List;
 
@@ -37,7 +35,6 @@ public class MyRemindFragment extends BaseFragment<FragmentMyRemindBinding,MyRem
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         p = new MyRemindPresenter();
-        p.setView(this);
         adapter =  new ListAdapter<>(getActivity(),R.layout.item_remind);
         adapter.setOnBindViewHolder(new ListAdapter.BindView<ItemRemindBinding, Remind>() {
             @Override
@@ -46,8 +43,8 @@ public class MyRemindFragment extends BaseFragment<FragmentMyRemindBinding,MyRem
                 b.setOpenRemind(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FragmentActivity.setFragment(RemindFragment.newInstance(item.getId()), "提醒");
-                        Intent intent = new Intent(MyRemindFragment.this.getActivity(), FragmentActivity.class);
+                        Intent intent = new Intent(MyRemindFragment.this.getActivity(), EditRemindActivity.class);
+                        intent.putExtra("remindId",item.getId());
                         MyRemindFragment.this.startActivity(intent);
                     }
                 });

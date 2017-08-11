@@ -1,16 +1,17 @@
 package com.sunmoon.helper.presenter;
 
 import android.content.Context;
+
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
+
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 
 import com.sunmoon.helper.App;
 import com.sunmoon.helper.model.Remind;
 import com.sunmoon.helper.model.RemindDao;
-import com.sunmoon.helper.view.RemindView;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
@@ -19,27 +20,41 @@ import org.joda.time.DateTimeFieldType;
  * Created by SunMoon on 2017/5/16.
  */
 
-public class RemindPresenter extends Presenter<RemindView> {
-    private DateTime dateTime;
+public class EditRemindViewModel extends Presenter {
+    private ObservableField<Integer> hour;
+    private ObservableField<Integer> minute;
     private long remindId;
     private RemindDao dao = App.getDaoSession().getRemindDao();
     private Remind remind;
     private Context context;
     private String remindContent;
-    public  RemindPresenter(Context context){
+    public EditRemindViewModel(Context context){
         this.context = context;
     }
+    /**
+     * @param id 提醒id
+     * 编辑已存在的提醒
+     * */
     public void initById(long id) {
         this.remindId = id;
         remind = dao.load(id);
         this.remindContent = remind.getContent();
-        this.dateTime = new DateTime(remind.getTime());
+        DateTime dt = new DateTime(remind.getTime());
+        this.hour.set(dt.getHourOfDay());
+        this.minute.set(dt.getMinuteOfHour());
     }
+/**
+ * @param similarTime 与时间相似的文字，示例: 22点30, 十二点30
+ * @param remindContent 提醒内容
+ *  添加新的提醒
+**/
     public void initNew(String similarTime, String remindContent) {
         remind  = new Remind();
         remind.setContent(remindContent);
         this.remindContent = remindContent;
-        dateTime = getDateTime(similarTime);
+        DateTime dt = getDateTime(similarTime);
+        this.hour.set(dt.getHourOfDay());
+        this.minute.set(dt.getMinuteOfHour());
     }
     public void confirmRemind() {
         if (remindContent.equals("") || remindContent == null){
@@ -47,9 +62,7 @@ public class RemindPresenter extends Presenter<RemindView> {
             return;
         }
         remind.setContent(remindContent);
-        int hour = v.getHourOfDay();
-        int minute = v.getMinuteOfHour();
-        DateTime dateTime = new DateTime().withField(DateTimeFieldType.clockhourOfDay(),hour).withField(DateTimeFieldType.minuteOfHour(),minute);
+        DateTime dateTime = new DateTime().withField(DateTimeFieldType.clockhourOfDay(),hour.get()).withField(DateTimeFieldType.minuteOfHour(),minute.get());
         remind.setTime(dateTime.toString());
         if (remindId == 0) {
             remind.setId(System.currentTimeMillis());
@@ -57,24 +70,14 @@ public class RemindPresenter extends Presenter<RemindView> {
         } else {
             dao.update(remind);
         }
-        v.back();
     }
 
-    public void cancel() {
-        v.back();
-    }
 
     @Override
     public void onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        v.setTime(this.dateTime.getHourOfDay(), this.dateTime.getMinuteOfHour());
-
-    }
 
 public DateTime getDateTime(String similarTime){
     try {
@@ -150,6 +153,22 @@ public DateTime getDateTime(String similarTime){
 
     public String getRemindContent() {
         return remindContent;
+    }
+
+    public int getHour() {
+        return hour.get();
+    }
+
+    public void setHour(int hour) {
+        this.hour.set(hour);
+    }
+
+    public int getMinute() {
+        return minute.get();
+    }
+
+    public void setMinute(int minute) {
+        this.minute.set(minute);
     }
 
     public void setRemindContent(String remindContent) {

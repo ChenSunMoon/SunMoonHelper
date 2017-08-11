@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            type="com.sunmoon.helper.presenter.RobotPresenter"
+            type="com.sunmoon.helper.presenter.HelperPresenter"
             name="present"/>
         </data>
     <RelativeLayout
@@ -16,6 +16,7 @@
            android:layout_above="@+id/fb_start"
            app:stackFromEnd="true"
            android:transitionGroup="true"
+           app:adapter="@{present.adapter}"
            />
         <FrameLayout
             android:id="@+id/fl_robot_content"

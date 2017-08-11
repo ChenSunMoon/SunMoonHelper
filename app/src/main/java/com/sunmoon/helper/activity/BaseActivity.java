@@ -1,13 +1,10 @@
 package com.sunmoon.helper.activity;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Toast;
-
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 

@@ -7,16 +7,18 @@ import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 
+import com.sunmoon.helper.adapter.VoiceAdapter;
 import com.sunmoon.helper.api.ApiManage;
 import com.sunmoon.helper.common.Flag;
-import com.sunmoon.helper.fragment.RemindFragment;
 import com.sunmoon.helper.fragment.WebSearchFragment;
 import com.sunmoon.helper.model.Message;
 import com.sunmoon.helper.model.Phone;
 import com.sunmoon.helper.model.TuLing;
 import com.sunmoon.helper.model.UserCommand;
 import com.sunmoon.helper.utils.Apk;
+
 import sunmoon.voice.recognition.BaiduUtil;
+
 import com.sunmoon.helper.utils.PhoneUtil;
 import com.sunmoon.helper.utils.StringUtil;
 import com.sunmoon.helper.utils.UserPurpose;
@@ -38,21 +40,22 @@ import sunmoon.voice.tts.Tts;
  * Created by SunMoon on 2016/11/30.
  */
 
-public class RobotPresenter extends Presenter<ChatView> implements RecognitionListener {
+public class HelperPresenter extends Presenter implements RecognitionListener {
     private UserPurpose userPurpose;
-
+    private VoiceAdapter adapter;
     private List<PackageInfo> packageInfos;
     private List<Phone> phoneInfos;
     private Context context;
     private Tts tts = new Tts();
     private VoiceWakeUp wakeUp;
     private final int REC_CODE = 1;// 语音识别
-    public RobotPresenter(final Context context) {
+    private ChatView v;
+    public HelperPresenter(final Context context) {
         this.userPurpose = new UserPurpose();
         this.context = context;
-
+        adapter = new VoiceAdapter(context);
         tts.init(context);
-        wakeUp  = new VoiceWakeUp(context);
+        wakeUp = new VoiceWakeUp(context);
         wakeUp.registerListener(new WakeUpListener() {
             @Override
             public void success() {
@@ -67,17 +70,25 @@ public class RobotPresenter extends Presenter<ChatView> implements RecognitionLi
         SpeechOcr.setRecognitionListener(this);
 
     }
-    public void startWakeUp(){
+
+    public VoiceAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void startWakeUp() {
         wakeUp.start();
     }
+
     public void startRecEvent() {
         tts.stop();
         wakeUp.stop();
-        v.startRecDialog(SpeechOcr.startDialogRec(),REC_CODE);
+        v.startRecDialog(SpeechOcr.startDialogRec(), REC_CODE);
     }
-    public void stopAll(){
+
+    public void stopAll() {
         SpeechOcr.stopAll();
     }
+
     @Override
     public void onReadyForSpeech(Bundle bundle) {
 
@@ -118,14 +129,17 @@ public class RobotPresenter extends Presenter<ChatView> implements RecognitionLi
     }
 
     public void sendLeftMsg(String msg, boolean isSpeak) {
-        v.sendMsg(new Message(msg, 0));
+        Message msgs = new Message(msg, 0);
+        adapter.addMessage(msgs);
         if (isSpeak) {
             tts.speak(msg);
         }
+        v.smoothBottom();
     }
 
     public void sendRightMsg(String msg) {
-        v.sendMsg(new Message(msg, 1));
+        v.smoothBottom();
+        adapter.addMessage(new Message(msg, 1));
     }
 
     public void handleResult(UserCommand userCommand) {
@@ -170,11 +184,10 @@ public class RobotPresenter extends Presenter<ChatView> implements RecognitionLi
                 break;
             case UserCommand.COMMAND_SEARCH:
                 Fragment fragment = WebSearchFragment.newInstance(target);
-                v.openFragment(fragment);
+
                 break;
             case UserCommand.COMMAND_REMIND:
-                fragment = RemindFragment.newInstance(userCommand.getSentence().getQualifier(),userCommand.getSentence().getTarget());
-                v.openFragment(fragment);
+
                 break;
             case UserCommand.COMMAND_CHAT:
                 Subscription rx = ApiManage.getInstence().getTuLingService().getResult(com.sunmoon.helper.common.TuLing.API_KEY, target)
@@ -219,7 +232,7 @@ public class RobotPresenter extends Presenter<ChatView> implements RecognitionLi
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REC_CODE && data!=null) {
+        if (requestCode == REC_CODE && data != null) {
             onResults(data.getExtras());
         }
     }

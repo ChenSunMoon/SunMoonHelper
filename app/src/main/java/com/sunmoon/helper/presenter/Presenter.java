@@ -12,11 +12,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by lgp on 2015/9/4.
  */
-public abstract class Presenter <T extends View> {
-    public T v;
-    public void  setView(T v){
-       this.v = v;
-    }
+public abstract class Presenter {
     private CompositeSubscription mCompositeSubscription;
     protected void addSubscription(Subscription s) {
         if (this.mCompositeSubscription == null) {
