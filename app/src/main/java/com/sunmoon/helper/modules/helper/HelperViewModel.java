@@ -1,16 +1,18 @@
-package com.sunmoon.helper.presenter;
+package com.sunmoon.helper.modules.helper;
 
-import android.app.Fragment;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 
-import com.sunmoon.helper.adapter.VoiceAdapter;
 import com.sunmoon.helper.api.ApiManage;
+import com.sunmoon.helper.base.BaseViewModel;
 import com.sunmoon.helper.common.Flag;
-import com.sunmoon.helper.fragment.WebSearchFragment;
+import com.sunmoon.helper.modules.remind.EditRemindActivity;
+import com.sunmoon.helper.modules.search.SearchActivity;
 import com.sunmoon.helper.model.Message;
 import com.sunmoon.helper.model.Phone;
 import com.sunmoon.helper.model.TuLing;
@@ -22,7 +24,6 @@ import sunmoon.voice.recognition.BaiduUtil;
 import com.sunmoon.helper.utils.PhoneUtil;
 import com.sunmoon.helper.utils.StringUtil;
 import com.sunmoon.helper.utils.UserPurpose;
-import com.sunmoon.helper.view.ChatView;
 
 import java.util.List;
 
@@ -40,7 +41,8 @@ import sunmoon.voice.tts.Tts;
  * Created by SunMoon on 2016/11/30.
  */
 
-public class HelperPresenter extends Presenter implements RecognitionListener {
+@TargetApi(Build.VERSION_CODES.FROYO)
+public class HelperViewModel extends BaseViewModel implements RecognitionListener  {
     private UserPurpose userPurpose;
     private VoiceAdapter adapter;
     private List<PackageInfo> packageInfos;
@@ -50,7 +52,7 @@ public class HelperPresenter extends Presenter implements RecognitionListener {
     private VoiceWakeUp wakeUp;
     private final int REC_CODE = 1;// 语音识别
     private ChatView v;
-    public HelperPresenter(final Context context) {
+    public HelperViewModel(final Context context) {
         this.userPurpose = new UserPurpose();
         this.context = context;
         adapter = new VoiceAdapter(context);
@@ -68,9 +70,10 @@ public class HelperPresenter extends Presenter implements RecognitionListener {
             }
         });
         SpeechOcr.setRecognitionListener(this);
-
     }
-
+    public void setView(ChatView v){
+        this.v = v;
+    }
     public VoiceAdapter getAdapter() {
         return adapter;
     }
@@ -183,11 +186,12 @@ public class HelperPresenter extends Presenter implements RecognitionListener {
                 }
                 break;
             case UserCommand.COMMAND_SEARCH:
-                Fragment fragment = WebSearchFragment.newInstance(target);
-
+                Intent intent = new Intent(context,SearchActivity.class);
+                intent.putExtra("keyword", target);
+                context.startActivity(intent);
                 break;
             case UserCommand.COMMAND_REMIND:
-
+                 intent = new Intent(context, EditRemindActivity.class);
                 break;
             case UserCommand.COMMAND_CHAT:
                 Subscription rx = ApiManage.getInstence().getTuLingService().getResult(com.sunmoon.helper.common.TuLing.API_KEY, target)
@@ -204,7 +208,6 @@ public class HelperPresenter extends Presenter implements RecognitionListener {
                                 sendLeftMsg(throwable.getMessage(), false);
                             }
                         });
-                addSubscription(rx);
                 break;
         }
     }
@@ -219,27 +222,11 @@ public class HelperPresenter extends Presenter implements RecognitionListener {
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        stopAll();
-    }
 
-    @Override
-    public void onDestroy() {
-        unsubscribe();
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REC_CODE && data != null) {
             onResults(data.getExtras());
         }
-    }
-
-    @Override
-    public void onResume() {
-        startWakeUp();
     }
 
 }

@@ -15,9 +15,11 @@ public class Sentence {
     public static Sentence create(String content,String command){
        Sentence sentence = new Sentence();
         String[] r = content.split(command);
-        sentence.setQualifier(r[0]);
-        sentence.setCommand(command);
-        sentence.setTarget(r[1]);
+        if (r.length > 1) {
+            sentence.setQualifier(r[0]);
+            sentence.setCommand(command);
+            sentence.setTarget(r[1]);
+        }
         return sentence;
     }
     public String getQualifier() {

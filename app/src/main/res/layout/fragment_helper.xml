@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            type="com.sunmoon.helper.presenter.HelperPresenter"
+            type="com.sunmoon.helper.modules.helper.HelperViewModel"
             name="present"/>
         </data>
     <RelativeLayout

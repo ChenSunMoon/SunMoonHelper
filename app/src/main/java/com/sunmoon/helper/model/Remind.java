@@ -1,27 +1,16 @@
 package com.sunmoon.helper.model;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 
-import com.android.databinding.library.baseAdapters.BR;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Keep;
 
-/**
- * Created by SunMoon on 2017/5/22.
- */
-@Entity
 public class Remind {
-    @Id(autoincrement = true)
+
     private long id;
     private String content;
     private String time;
     private int status;
     private String completeTime;
-    @Keep()
+
     public Remind(long id, String content, String time, int status,
             String completeTime) {
         this.id = id;
@@ -31,7 +20,7 @@ public class Remind {
         this.completeTime = completeTime;
     }
 
-    @Keep()
+
     public Remind() {
     }
 

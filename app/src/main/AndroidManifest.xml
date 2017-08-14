@@ -19,13 +19,15 @@
         >
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".modules.main.MainActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".modules.search.SearchActivity"/>
+        <activity android:name=".modules.remind.EditRemindActivity"/>
     </application>
 
 </manifest>

@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sunmoon.helper.model.NoteInfo;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +59,7 @@ public class ListAdapter<T1, T2 extends ViewDataBinding> extends RecyclerView.Ad
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        bindView.onBindViewHolder((T2) holder.getBinding(), list.get(position), position);
+        bindView.onBindViewHolder((T2)holder.getBinding(), list.get(position), position);
     }
 
     @Override

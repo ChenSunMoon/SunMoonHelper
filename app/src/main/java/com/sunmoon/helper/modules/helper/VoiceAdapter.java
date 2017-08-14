@@ -1,4 +1,4 @@
-package com.sunmoon.helper.adapter;
+package com.sunmoon.helper.modules.helper;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -59,10 +59,10 @@ public class VoiceAdapter extends RecyclerView.Adapter<VoiceAdapter.MessageViewH
         public MessageViewHolder(ViewDataBinding b,int viewType) {
             super(b.getRoot());
             this.b= b;
-            this.viewType=viewType;
+            this.viewType = viewType;
         }
         public void setMessage(Message message){
-            if (viewType==LEFT_FLAG){
+            if (viewType == LEFT_FLAG){
                 ((ItemLeftMessageBinding)b).setMessage(message);
             }else{
                 ((ItemRightMessageBinding)b).setMessage(message);

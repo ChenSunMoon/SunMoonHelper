@@ -6,8 +6,11 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TimePicker;
+
+import retrofit2.http.Url;
 
 /**mport android.widget.TimePicker;
 
@@ -36,5 +39,9 @@ public class BindingAdapters {
     @BindingAdapter("adapter")
     public static void setAdapter(RecyclerView rv, RecyclerView.Adapter adapter){
         rv.setAdapter(adapter);
+    }
+    @BindingAdapter("url")
+    public static void setUrl(WebView wb, String url){
+        wb.loadUrl(url);
     }
 }

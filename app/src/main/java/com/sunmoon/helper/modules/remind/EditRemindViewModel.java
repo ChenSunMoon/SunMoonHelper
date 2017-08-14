@@ -1,17 +1,14 @@
-package com.sunmoon.helper.presenter;
+package com.sunmoon.helper.modules.remind;
 
 import android.content.Context;
 
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-
 import android.view.ViewGroup;
 
-
-import com.sunmoon.helper.App;
+import com.sunmoon.helper.base.BaseViewModel;
 import com.sunmoon.helper.model.Remind;
-import com.sunmoon.helper.model.RemindDao;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
@@ -20,11 +17,10 @@ import org.joda.time.DateTimeFieldType;
  * Created by SunMoon on 2017/5/16.
  */
 
-public class EditRemindViewModel extends Presenter {
+public class EditRemindViewModel extends BaseViewModel {
     private ObservableField<Integer> hour;
     private ObservableField<Integer> minute;
     private long remindId;
-    private RemindDao dao = App.getDaoSession().getRemindDao();
     private Remind remind;
     private Context context;
     private String remindContent;
@@ -37,17 +33,16 @@ public class EditRemindViewModel extends Presenter {
      * */
     public void initById(long id) {
         this.remindId = id;
-        remind = dao.load(id);
         this.remindContent = remind.getContent();
         DateTime dt = new DateTime(remind.getTime());
         this.hour.set(dt.getHourOfDay());
         this.minute.set(dt.getMinuteOfHour());
     }
-/**
- * @param similarTime 与时间相似的文字，示例: 22点30, 十二点30
- * @param remindContent 提醒内容
- *  添加新的提醒
-**/
+  /**
+   * @param similarTime 与时间相似的文字，示例: 22点30, 十二点30
+   * @param remindContent 提醒内容
+   *  添加新的提醒
+   **/
     public void initNew(String similarTime, String remindContent) {
         remind  = new Remind();
         remind.setContent(remindContent);
@@ -66,17 +61,12 @@ public class EditRemindViewModel extends Presenter {
         remind.setTime(dateTime.toString());
         if (remindId == 0) {
             remind.setId(System.currentTimeMillis());
-            dao.insert(remind);
+
         } else {
-            dao.update(remind);
+
         }
     }
 
-
-    @Override
-    public void onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-    }
 
 
 public DateTime getDateTime(String similarTime){

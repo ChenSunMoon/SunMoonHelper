@@ -1,6 +1,6 @@
 package sunmoon.com.helper;
 
-import com.sunmoon.helper.presenter.EditRemindViewModel;
+import com.sunmoon.helper.modules.remind.EditRemindViewModel;
 
 import org.junit.Test;
 

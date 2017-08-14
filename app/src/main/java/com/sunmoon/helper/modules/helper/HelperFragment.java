@@ -1,9 +1,7 @@
-package com.sunmoon.helper.fragment;
+package com.sunmoon.helper.modules.helper;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
@@ -16,20 +14,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunmoon.helper.R;
-import com.sunmoon.helper.databinding.ActivityVoiceBinding;
-import com.sunmoon.helper.model.Message;
-import com.sunmoon.helper.presenter.HelperPresenter;
-import com.sunmoon.helper.view.ChatView;
+import com.sunmoon.helper.databinding.FragmentHelperBinding;
+import com.sunmoon.helper.base.BaseFragment;
 
 /**
  * Created by SunMoon on 2017/4/9.
  */
 
-public class HelperFragment extends BaseFragment<ActivityVoiceBinding,HelperPresenter> implements ChatView{
+public class HelperFragment  extends  BaseFragment implements ChatView{
+    private FragmentHelperBinding b;
+    private HelperViewModel vm;
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        p = new HelperPresenter(getActivity());
+        vm = new HelperViewModel(getActivity());
+        vm.setView(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -44,11 +43,10 @@ public class HelperFragment extends BaseFragment<ActivityVoiceBinding,HelperPres
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        b = DataBindingUtil.inflate(inflater,R.layout.activity_voice,container,false);
+        b = DataBindingUtil.inflate(inflater,R.layout.fragment_helper,container,false);
         LinearLayoutManager lineManager=new LinearLayoutManager(getContext());
         b.rvContent.setLayoutManager(lineManager);
-        b.rvContent.setAdapter(p.getAdapter());
-        b.setPresent(p);
+        b.setPresent(vm);
         return b.getRoot();
     }
     public static Fragment newInstance(){
@@ -62,6 +60,7 @@ public class HelperFragment extends BaseFragment<ActivityVoiceBinding,HelperPres
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        vm.onActivityResult(requestCode, resultCode, data);
     }
 
 
@@ -76,8 +75,7 @@ public class HelperFragment extends BaseFragment<ActivityVoiceBinding,HelperPres
      * */
     @Override
     public void smoothBottom(){
-        b.rvContent.smoothScrollToPosition(b.rvContent.getAdapter().getItemCount()-1);
+       b.rvContent.smoothScrollToPosition(b.rvContent.getAdapter().getItemCount());
     }
-    private Fragment fragment;
 
 }
