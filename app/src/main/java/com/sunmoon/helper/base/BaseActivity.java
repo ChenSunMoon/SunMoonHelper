@@ -1,4 +1,4 @@
-package com.sunmoon.helper.activity;
+package com.sunmoon.helper.base;
 
 import android.os.Build;
 import android.os.Bundle;
