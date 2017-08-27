@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="com.sunmoon.helper.presenter.EditRemindViewModel"/>
+            type="com.sunmoon.helper.modules.remind.EditRemindViewModel"/>
         </data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"

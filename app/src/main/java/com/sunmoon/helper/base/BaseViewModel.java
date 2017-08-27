@@ -5,4 +5,5 @@ package com.sunmoon.helper.base;
  */
 
 public class BaseViewModel {
+
 }

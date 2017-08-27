@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        changeFragment(HelperFragment.newInstance(),"语音助手");
+        changeFragment(HelperFragment.Companion.newInstance(),"语音助手");
         checkPermissions();
 
     }
@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
       if (id == R.id.nav_voice) {
-          changeFragment(HelperFragment.newInstance(),"语音助手");
+          changeFragment(HelperFragment.Companion.newInstance(),"语音助手");
         } else if (id == R.id.nav_remind) {
 
         }

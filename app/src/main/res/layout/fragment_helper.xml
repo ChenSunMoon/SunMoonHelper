@@ -31,7 +31,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/interval_big"
             android:layout_marginBottom="@dimen/interval_big"
-            android:onClick="@{()->present.startRecEvent()}"
+            android:onClick="@{()->present.startVoiceRec()}"
             android:src="@drawable/ic_voice"/>
     </RelativeLayout>
 

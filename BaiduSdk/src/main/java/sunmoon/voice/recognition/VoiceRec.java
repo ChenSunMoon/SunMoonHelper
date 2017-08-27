@@ -12,26 +12,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 /**
  * Created by SunMoon on 2016/10/19.
  */
 
-public class SpeechOcr {
-    private static SpeechOcr instance;
+public class VoiceRec {
+    private static VoiceRec instance;
     private static SpeechRecognizer mSpeechRecognizer;
     public  static Intent mIntent;
-    public static SpeechOcr getInstance(){
+    public static VoiceRec getInstance(){
             if (instance==null){
-                instance=new SpeechOcr();
+                instance=new VoiceRec();
             }
         return instance;
     }
 
     public void init(Context context){
-        mIntent= initConfigIntent();
-        // 初始化语音识别
+        mIntent = initConfig();
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(context, new ComponentName(context,VoiceRecognitionService.class));
     }
     public static void setRecognitionListener(RecognitionListener listener){
@@ -40,14 +37,17 @@ public class SpeechOcr {
     public static void startRec(){
         mSpeechRecognizer.startListening(mIntent);
     }
-    public static Intent startDialogRec(){
+    /**
+     *  获取打开语音识别窗口的Intent
+     * */
+    public static Intent getDialogIntent(){
         mIntent.setAction("com.baidu.action.RECOGNIZE_SPEECH");
         return mIntent;
     }
     public static void stopRec(){
         mSpeechRecognizer.stopListening();
     }
-    private Intent initConfigIntent() {
+    private Intent initConfig() {
         //设置帐号详情
         /*intent.putExtra(Constant.APP_ID, "8769143");
         intent.putExtra(Constant.API_KEY, "bv7mxKITLI7m1ir97oVzKzHC");
@@ -78,9 +78,5 @@ public class SpeechOcr {
         }
         intent.putExtra("slot-data", slotData.toString());
         return intent;
-    }
-
-    public static void stopAll(){
-        stopRec();
     }
 }

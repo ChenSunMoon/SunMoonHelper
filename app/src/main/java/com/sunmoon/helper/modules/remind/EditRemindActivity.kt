@@ -7,7 +7,6 @@ import android.support.annotation.RequiresApi
 import com.sunmoon.helper.R
 import com.sunmoon.helper.base.BaseActivity
 import com.sunmoon.helper.databinding.ActivityEditRemindBinding
-import com.sunmoon.helper.modules.remind.EditRemindViewModel
 
 /**
  * Created by SunMoon on 2017/8/2.

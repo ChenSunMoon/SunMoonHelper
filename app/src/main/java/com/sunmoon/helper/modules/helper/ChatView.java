@@ -9,7 +9,7 @@ import android.content.Intent;
 public interface ChatView {
     public void onRmsChanged(float v);
     public void smoothBottom();
-    void startRecDialog(Intent intent,int rec_code);
+    void onGetDialogIntent(Intent intent);
 }
 
 
