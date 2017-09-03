@@ -6,8 +6,6 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,10 +21,12 @@ import com.sunmoon.helper.base.BaseFragment
 class HelperFragment : BaseFragment(), ChatView {
     lateinit var b: FragmentHelperBinding
     lateinit var vm: HelperViewModel
+
     @TargetApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         vm = HelperViewModel(activity)
-        vm!!.setView(this)
+        vm.setView(this)
+
         super.onCreate(savedInstanceState)
     }
 
@@ -41,13 +41,11 @@ class HelperFragment : BaseFragment(), ChatView {
         vm.stopVoiceWakeUp()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         b = DataBindingUtil.inflate<FragmentHelperBinding>(inflater, R.layout.fragment_helper, container, false)
-        val lineManager = LinearLayoutManager(context)
-        b.rvContent.layoutManager = lineManager
         b.present = vm
-        return b!!.root
+        b.msgList.setAdapter(vm.adapter)
+        return b.root
     }
 
     override fun onRmsChanged(v: Float) {}
@@ -61,15 +59,11 @@ class HelperFragment : BaseFragment(), ChatView {
             vm.onResults(data.extras)
         }
     }
-
-
-
-
     /**
      * 滑动到底部
      */
     override fun smoothBottom() {
-        b.rvContent.smoothScrollToPosition(b.rvContent.adapter.itemCount)
+
     }
 
     companion object {

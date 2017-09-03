@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="com.sunmoon.helper.modules.search.SearchViewModel"/>
+            type="com.sunmoon.helper.modules.browser.BrowserViewModel"/>
         </data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        bind:title="搜索"
+        bind:title="网页标题"
         bind:titleTextColor="@color/white"
         bind:navigationIcon="@drawable/ic_nav_back"/>
 <WebView

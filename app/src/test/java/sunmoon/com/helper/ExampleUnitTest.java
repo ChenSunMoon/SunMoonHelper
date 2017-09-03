@@ -1,7 +1,5 @@
 package sunmoon.com.helper;
 
-import com.sunmoon.helper.modules.remind.EditRemindViewModel;
-
 import org.junit.Test;
 
 /**
@@ -12,6 +10,6 @@ import org.junit.Test;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        EditRemindViewModel dd =new EditRemindViewModel();
+
     }
 }

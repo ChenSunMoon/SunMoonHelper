@@ -7,28 +7,27 @@ import android.content.pm.PackageInfo
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
-
+import android.widget.ImageView
+import cn.jiguang.imui.commons.ImageLoader
+import cn.jiguang.imui.commons.models.IMessage
+import cn.jiguang.imui.messages.MsgListAdapter
+import com.bumptech.glide.Glide
 import com.sunmoon.helper.api.ApiManage
 import com.sunmoon.helper.base.BaseViewModel
 import com.sunmoon.helper.common.Flag
+import com.sunmoon.helper.model.DefaultUser
+import com.sunmoon.helper.model.MyMessage
+import com.sunmoon.helper.model.Phone
+import com.sunmoon.helper.model.UserCommand
 import com.sunmoon.helper.modules.remind.EditRemindActivity
 import com.sunmoon.helper.modules.search.SearchActivity
-import com.sunmoon.helper.model.Message
-import com.sunmoon.helper.model.Phone
-import com.sunmoon.helper.model.TuLing
-import com.sunmoon.helper.model.UserCommand
 import com.sunmoon.helper.utils.Apk
-
-import sunmoon.voice.recognition.BaiduUtil
-
 import com.sunmoon.helper.utils.PhoneUtil
 import com.sunmoon.helper.utils.StringUtil
 import com.sunmoon.helper.utils.UserPurpose
-
-import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
 import rx.schedulers.Schedulers
+import sunmoon.voice.recognition.BaiduUtil
 import sunmoon.voice.recognition.VoiceRec
 import sunmoon.voice.recognition.VoiceWakeUp
 import sunmoon.voice.recognition.WakeUpListener
@@ -41,18 +40,17 @@ import sunmoon.voice.tts.Tts
 
 @TargetApi(Build.VERSION_CODES.FROYO)
 class HelperViewModel(private val context: Context) : BaseViewModel(), RecognitionListener {
-    private val userPurpose: UserPurpose
-    val adapter: VoiceAdapter
+    private val userPurpose: UserPurpose = UserPurpose()
     private var packageInfos: List<PackageInfo>? = null
     private var phoneInfos: List<Phone>? = null
     private val tts = Tts()
     private val wakeUp: VoiceWakeUp
     private val REC_CODE = 1// 语音识别
     private var v: ChatView? = null
-
+    private var curUserMsg:MyMessage ?= null
+     var adapter: MsgListAdapter<MyMessage>
     init {
-        this.userPurpose = UserPurpose()
-        adapter = VoiceAdapter(context)
+
         tts.init(context)
 
         // 语音唤醒
@@ -61,9 +59,17 @@ class HelperViewModel(private val context: Context) : BaseViewModel(), Recogniti
             override fun success() {
                 startVoiceRec()
             }
-
             override fun exit() {
+            }
+        })
+        // 消息
+        adapter = MsgListAdapter("0", object : ImageLoader {
+            override fun loadAvatarImage(avatarImageView: ImageView?, string: String?) {
+                Glide.with(context).load(string).into(avatarImageView)
+            }
 
+            override fun loadImage(imageView: ImageView?, string: String?) {
+                Glide.with(context).load(string).into(imageView)
             }
         })
         VoiceRec.setRecognitionListener(this)
@@ -112,23 +118,29 @@ class HelperViewModel(private val context: Context) : BaseViewModel(), Recogniti
     override fun onResults(bundle: Bundle) {
         val raw = BaiduUtil.getRecResult(bundle)
         val result = StringUtil.ridPunctuation(raw)
-        sendRightMsg(result)
+        sendUserMessage(result)
         handleResult(userPurpose.getUserCommand(result))
 
     }
 
-    fun sendLeftMsg(msg: String, isSpeak: Boolean) {
-        val msgs = Message(msg, 0)
-        adapter.addMessage(msgs)
+    fun sendReplyMsg(msg: String, isSpeak: Boolean) {
         if (isSpeak) {
             tts.speak(msg)
         }
-        v!!.smoothBottom()
+        if (curUserMsg != null){
+            curUserMsg?.status = IMessage.MessageStatus.SEND_SUCCEED
+            adapter.updateMessage(curUserMsg)
+        }
+        adapter.addToStart(MyMessage(msg,IMessage.MessageType.RECEIVE_TEXT), true)
     }
 
-    fun sendRightMsg(msg: String) {
-        v!!.smoothBottom()
-        adapter.addMessage(Message(msg, 1))
+    fun sendUserMessage(msg: String) {
+        val msg = MyMessage(msg, IMessage.MessageType.SEND_TEXT)
+        msg.status = IMessage.MessageStatus.CREATED
+        msg.setUserInfo(DefaultUser("1", "yonghu", "file:///android_asset/my_header.jpg"))
+
+        curUserMsg = msg
+        adapter.addToStart(msg, true)
     }
 
     fun handleResult(userCommand: UserCommand) {
@@ -141,10 +153,10 @@ class HelperViewModel(private val context: Context) : BaseViewModel(), Recogniti
                 }
                 val result = PhoneUtil.getPhonesByName(phoneInfos, target)
                 if (result.size > 0) {
-                    sendLeftMsg("正在为您呼叫: " + result[0].name, false)
+                    sendReplyMsg("正在为您呼叫: " + result[0].name, false)
                     PhoneUtil.fastCallPerson(context, result[0].number)
                 } else {
-                    sendLeftMsg("未找到联系人:" + target, true)
+                    sendReplyMsg("未找到联系人:" + target, true)
                 }
             }
             UserCommand.COMMAND_OPEN_APP// 打开APP
@@ -154,10 +166,10 @@ class HelperViewModel(private val context: Context) : BaseViewModel(), Recogniti
                 }
                 var packName = Apk.getAppPackageName(context, packageInfos, target)
                 if (packName != Flag.FAIL) {
-                    sendLeftMsg("正在打开：" + target, false)
+                    sendReplyMsg("正在打开：" + target, false)
                     Apk.openApp(context, packName)
                 } else {
-                    sendLeftMsg("未找到应用：" + target, true)
+                    sendReplyMsg("未找到应用：" + target, true)
                 }
             }
             UserCommand.COMMAND_DELETE_APP // 卸载APP
@@ -167,20 +179,21 @@ class HelperViewModel(private val context: Context) : BaseViewModel(), Recogniti
                 }
                 val packName = Apk.getAppPackageName(context, packageInfos, target)
                 if (packName != Flag.FAIL) {
-                    sendLeftMsg("正在卸载：" + target, false)
+                    sendReplyMsg("正在卸载：" + target, false)
                     Apk.unInstallApp(context, packName)
 
                 } else {
-                    sendLeftMsg("未找到应用：" + target, true)
+                    sendReplyMsg("未找到应用：" + target, true)
                 }
             }
             UserCommand.COMMAND_SEARCH // 网络搜索
             -> {
+                sendReplyMsg("成功为您搜索："+ target, false)
                 var intent = Intent(context, SearchActivity::class.java)
                 intent.putExtra("keyword", target)
                 context.startActivity(intent)
             }
-            UserCommand.COMMAND_REMIND// 设置提醒
+            UserCommand.COMMAND_REMIND // 添加提醒
             -> {
                 val intent = Intent(context, EditRemindActivity::class.java)
                 intent.putExtra("isNew", true)
@@ -192,8 +205,8 @@ class HelperViewModel(private val context: Context) : BaseViewModel(), Recogniti
                 val rx = ApiManage.getInstence().tuLingService.getResult(com.sunmoon.helper.common.TuLing.API_KEY, target)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ tuLing -> sendLeftMsg(tuLing.text, true) }) { throwable ->
-                            sendLeftMsg(throwable.message!!, false)
+                        .subscribe({ tuLing -> sendReplyMsg(tuLing.text, true) }) { throwable ->
+                            sendReplyMsg(throwable.message!!, false)
                         }
             }
         }

@@ -7,22 +7,27 @@
             name="present"/>
         </data>
     <RelativeLayout
-        style="@style/match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/chat_back">
-       <android.support.v7.widget.RecyclerView
-           android:id="@+id/rv_content"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:layout_above="@+id/fb_start"
-           app:stackFromEnd="true"
-           android:transitionGroup="true"
-           app:adapter="@{present.adapter}"
-           />
-        <FrameLayout
-            android:id="@+id/fl_robot_content"
+        <cn.jiguang.imui.messages.MessageList
+            android:id="@+id/msg_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            </FrameLayout>
+            android:layout_height="match_parent"
+            app:avatarHeight="50dp"
+            app:avatarWidth="50dp"
+            app:bubbleMaxWidth="0.70"
+            app:dateTextSize="14sp"
+            app:receiveBubblePaddingLeft="20dp"
+            app:receiveBubblePaddingRight="10dp"
+            app:receiveTextColor="#000000"
+            app:receiveBubbleColor="#ffffffff"
+            app:receiveTextSize="15sp"
+            app:sendBubblePaddingLeft="10dp"
+            app:sendBubblePaddingRight="20dp"
+            app:sendTextColor="#0079ff"
+            app:sendBubbleColor="#a5dfff"
+            app:sendTextSize="15sp" />
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fb_start"
             android:layout_width="wrap_content"

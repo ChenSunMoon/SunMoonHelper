@@ -4,9 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BaiduSdk/BaiduSdk.iml" filepath="$PROJECT_DIR$/BaiduSdk/BaiduSdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/SunMoonHelper.iml" filepath="$PROJECT_DIR$/SunMoonHelper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SunUI/SunUI.iml" filepath="$PROJECT_DIR$/SunUI/SunUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/richeditor/richeditor.iml" filepath="$PROJECT_DIR$/richeditor/richeditor.iml" />
     </modules>
   </component>
 </project>

@@ -1,37 +1,34 @@
-package com.sunmoon.helper.modules.search;
+package com.sunmoon.helper.modules.browser;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.sunmoon.helper.R;
 import com.sunmoon.helper.base.BaseActivity;
+import com.sunmoon.helper.databinding.ActivityBrowserBinding;
 import com.sunmoon.helper.databinding.ActivitySearchBinding;
-import com.sunmoon.helper.modules.browser.BrowserActivity;
 import com.sunmoon.helper.modules.search.SearchViewModel;
 
 /**
  * Created by SunMoon on 2017/5/4.
  */
 
-public class SearchActivity extends BaseActivity{
-    private ActivitySearchBinding b;
-    private SearchViewModel vm;
+public class BrowserActivity extends BaseActivity{
+    private ActivityBrowserBinding b;
+    private BrowserViewModel vm;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        vm = new SearchViewModel(getIntent().getStringExtra("keyword"));
-        b = DataBindingUtil.setContentView(this,R.layout.activity_search);
+        vm = new BrowserViewModel(getIntent().getStringExtra("url"));
+        b = DataBindingUtil.setContentView(this,R.layout.activity_browser);
         setSupportActionBar(b.toolBar);
-        b.toolBar.setTitle(vm.getKeyword());
         b.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,18 +37,26 @@ public class SearchActivity extends BaseActivity{
         });
         initWebSetting();
         b.wb.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                b.toolBar.setTitle(title);
+            }
         });
         b.wb.setWebViewClient(new WebViewClient(){
             @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return super.shouldOverrideUrlLoading(view, request);
+
+            }
+
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Intent intent =new Intent(SearchActivity.this, BrowserActivity.class);
-                intent.putExtra("url",url );
-                startActivity(intent);
+                view.loadUrl(url);
                 return true;
             }
         });
         b.setVm(vm);
-
     }
     private void initWebSetting() {
         WebSettings  settings = b.wb.getSettings();
@@ -62,5 +67,13 @@ public class SearchActivity extends BaseActivity{
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(true);
         settings.setAllowFileAccess(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (b.wb.canGoBack()) {
+            b.wb.goBack();
+        }
     }
 }

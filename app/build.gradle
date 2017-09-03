@@ -37,7 +37,8 @@ dependencies {
     })
     //UI库
     compile project(path: ':BaiduSdk')
-    compile project(path: ':SunUI')
+    compile 'cn.jiguang.imui:messagelist:0.4.7'
+
     compile 'com.dewarder:holdingbutton:0.0.9'
 
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
