@@ -23,7 +23,7 @@ public class ApiManage {
         return apiManage;
     }
     public TuLingApi tuLingApi;
-    public TuLingApi getTuLingService(){
+    public TuLingApi getTuLing(){
         if(tuLingApi == null) {
             synchronized (monitor) {
                 if (tuLingApi == null){

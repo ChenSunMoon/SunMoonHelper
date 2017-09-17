@@ -4,9 +4,8 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,10 +17,11 @@ import android.view.MenuItem;
 import com.sunmoon.helper.R;
 import com.sunmoon.helper.base.BaseActivity;
 import com.sunmoon.helper.modules.helper.HelperFragment;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.sunmoon.helper.utils.IntentUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,12 +51,14 @@ public class MainActivity extends BaseActivity
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.RECORD_AUDIO)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Boolean>() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
+                .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void call(Boolean aBoolean) {
+                    public void accept(Boolean aBoolean) throws Exception {
                         if (!aBoolean){
                             showToast("需要获取录音权限");
+                        } else {
+                            Intent intent = IntentUtils.getAppDetailSettingIntent(getBaseContext());
+                            startActivity(intent);
                         }
                     }
                 });

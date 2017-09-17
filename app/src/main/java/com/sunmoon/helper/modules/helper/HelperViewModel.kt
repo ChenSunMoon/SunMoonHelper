@@ -25,8 +25,9 @@ import com.sunmoon.helper.utils.Apk
 import com.sunmoon.helper.utils.PhoneUtil
 import com.sunmoon.helper.utils.StringUtil
 import com.sunmoon.helper.utils.UserPurpose
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
 import sunmoon.voice.recognition.BaiduUtil
 import sunmoon.voice.recognition.VoiceRec
 import sunmoon.voice.recognition.VoiceWakeUp
@@ -202,7 +203,7 @@ class HelperViewModel(private val context: Context) : BaseViewModel(), Recogniti
                 context.startActivity(intent)
             }
             UserCommand.COMMAND_CHAT -> {
-                val rx = ApiManage.getInstence().tuLingService.getResult(com.sunmoon.helper.common.TuLing.API_KEY, target)
+                val rx = ApiManage.getInstence().tuLing.getResult(com.sunmoon.helper.common.TuLing.API_KEY, target)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ tuLing -> sendReplyMsg(tuLing.text, true) }) { throwable ->

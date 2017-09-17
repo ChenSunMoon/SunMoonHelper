@@ -13,7 +13,7 @@
         <cn.jiguang.imui.messages.MessageList
             android:id="@+id/msg_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             app:avatarHeight="50dp"
             app:avatarWidth="50dp"
             app:bubbleMaxWidth="0.70"
@@ -27,17 +27,26 @@
             app:sendBubblePaddingRight="20dp"
             app:sendTextColor="#0079ff"
             app:sendBubbleColor="#a5dfff"
-            app:sendTextSize="15sp" />
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fb_start"
-            android:layout_width="wrap_content"
+            app:sendTextSize="15sp"
+            android:layout_above="@+id/rl_bottom"/>
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/interval_big"
-            android:layout_marginBottom="@dimen/interval_big"
-            android:onClick="@{()->present.startVoiceRec()}"
-            android:src="@drawable/ic_voice"/>
+            android:padding="@dimen/interval_medium"
+            >
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fb_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:onClick="@{()->present.startVoiceRec()}"
+                android:src="@drawable/ic_voice"/>
+            </RelativeLayout>
+
     </RelativeLayout>
 
 </layout>

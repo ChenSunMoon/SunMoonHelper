@@ -33,7 +33,6 @@ public class BaseActivity extends AppCompatActivity {
     public void unSubscribe() {
         if (compositeSubscription != null) compositeSubscription.unsubscribe();
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public void showToast(String content){
         Toast.makeText(this,content,Toast.LENGTH_SHORT).show();
     }

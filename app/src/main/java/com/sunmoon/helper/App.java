@@ -2,8 +2,6 @@ package com.sunmoon.helper;
 
 import android.app.Application;
 
-import com.orhanobut.logger.Logger;
-
 import sunmoon.voice.recognition.VoiceRec;
 
 /**
@@ -16,7 +14,6 @@ public class App extends Application {
         super.onCreate();
         // 初始化语音识别
         VoiceRec.getInstance().init(this);
-        Logger.init("SunMoon");
     }
 
 
