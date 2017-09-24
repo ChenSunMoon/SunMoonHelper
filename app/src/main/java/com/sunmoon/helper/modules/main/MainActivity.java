@@ -56,9 +56,10 @@ public class MainActivity extends BaseActivity
                     public void accept(Boolean aBoolean) throws Exception {
                         if (!aBoolean){
                             showToast("需要获取录音权限");
-                        } else {
                             Intent intent = IntentUtils.getAppDetailSettingIntent(getBaseContext());
                             startActivity(intent);
+                        } else {
+
                         }
                     }
                 });
