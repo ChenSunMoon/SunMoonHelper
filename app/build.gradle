@@ -4,12 +4,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao'
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.sunmoon.helper"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -61,11 +61,22 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.4'
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'// 权限检查
-//    // retrofit2
-     compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    // retrofit2
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
       compile 'com.orhanobut:logger:2.1.1'
+    //官方Architecture 组件
+
+    implementation "android.arch.lifecycle:common-java8:1.0.0"
+    implementation "android.arch.lifecycle:extensions:1.0.0"
+    testImplementation "android.arch.core:core-testing:1.0.0"
+    implementation "android.arch.lifecycle:reactivestreams:1.0.0"
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    testImplementation "android.arch.persistence.room:testing:1.0.0"
+    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+    implementation "android.arch.paging:runtime:1.0.0-alpha3"
 
 }
 repositories {

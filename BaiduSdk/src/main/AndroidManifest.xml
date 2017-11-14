@@ -15,17 +15,6 @@
         <meta-data android:name="com.baidu.speech.APP_ID" android:value="8769143"/>
         <meta-data android:name="com.baidu.speech.API_KEY" android:value="bv7mxKITLI7m1ir97oVzKzHC"/>
         <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="f716f97dc8b2fe1dd5fb9c4d4c359b92"/>
-        <activity
-            android:name="com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog"
-            android:configChanges="orientation|keyboardHidden|screenLayout"
-            android:theme="@android:style/Theme.Dialog"
-            android:exported="false"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="com.baidu.action.RECOGNIZE_SPEECH" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <service android:name="com.baidu.speech.VoiceRecognitionService" android:exported="false" />
     </application>
 
