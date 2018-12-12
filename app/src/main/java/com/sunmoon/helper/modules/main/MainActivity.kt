@@ -1,6 +1,7 @@
 package com.sunmoon.helper.modules.main
 
 import android.Manifest
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -12,6 +13,7 @@ import com.sunmoon.helper.R
 import com.sunmoon.helper.base.BaseActivity
 import com.sunmoon.helper.databinding.ActivityMainBinding
 import com.sunmoon.helper.modules.helper.HelperFragment
+import com.sunmoon.helper.modules.helper.SettingActivity
 import com.sunmoon.helper.utils.IntentUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,9 +23,7 @@ class MainActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val b = DataBindingUtil.setContentView<ActivityMainBinding>(this,R.layout.activity_main)
-
         setSupportActionBar(b.toolbar)
-
         val toggle = ActionBarDrawerToggle(this, b.drawerLayout, b.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         b.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -31,11 +31,11 @@ class MainActivity : BaseActivity() {
             val id = item.itemId
             if (id == R.id.nav_voice) {
                 changeFragment(HelperFragment::class.java.name, "语音助手")
-            } else if (id == R.id.nav_remind) {
             }
             b.drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
+       
 
         addFragments()
 
@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
 
     private fun checkPermissions() {
         val rxPermissions = RxPermissions(this)
-        rxPermissions.request(Manifest.permission.RECORD_AUDIO)
+        rxPermissions.request(Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_CONTACTS,Manifest.permission.CALL_PHONE)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe { aBoolean ->
                     if (!aBoolean) {
@@ -69,7 +69,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main2, menu)
         return true
     }
@@ -77,21 +76,24 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         return if (id == R.id.action_settings) {
+            val i = Intent(applicationContext,SettingActivity::class.java)
+            startActivity(i)
             true
         } else super.onOptionsItemSelected(item)
 
     }
     private fun addFragments() {
-        fragmentManager.beginTransaction().add(R.id.fl_content, HelperFragment.newInstance(), HelperFragment::class.java.name)
+        supportFragmentManager.beginTransaction().add(R.id.fl_content, HelperFragment.newInstance(), HelperFragment::class.java.name)
                 .commitAllowingStateLoss()
     }
     fun changeFragment(tagName:String, name: String) {
-        val fragment = fragmentManager.findFragmentByTag(tagName)
+        val fragment = supportFragmentManager.findFragmentByTag(tagName)
         if (fragment!=null) {
-            fragmentManager.beginTransaction().show(fragment).commitAllowingStateLoss()
+            supportFragmentManager.beginTransaction().show(fragment).commitAllowingStateLoss()
         } else {
             showToast("未找到页面：$tagName" )
         }
         title = name
     }
+
 }

@@ -4,16 +4,17 @@
     <data>
         <variable
             type="com.sunmoon.helper.modules.helper.HelperViewModel"
-            name="present"/>
+            name="viewModel"/>
+        <import type="android.view.View"/>
         </data>
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/chat_back">
         <cn.jiguang.imui.messages.MessageList
             android:id="@+id/msg_list"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dp"
             app:avatarHeight="50dp"
             app:avatarWidth="50dp"
             app:bubbleMaxWidth="0.70"
@@ -28,25 +29,68 @@
             app:sendTextColor="#0079ff"
             app:sendBubbleColor="#a5dfff"
             app:sendTextSize="15sp"
-            android:layout_above="@+id/rl_bottom"/>
-        <RelativeLayout
-            android:id="@+id/rl_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_alignParentBottom="true"
-            android:padding="@dimen/interval_medium"
-            >
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fb_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:onClick="@{()->present.startVoiceRec()}"
-                android:src="@drawable/ic_voice"/>
-            </RelativeLayout>
+            app:adapter="@{viewModel.adapter}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+            />
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/mainColor">
+                <View
+                    android:id="@+id/ic_keyboard"
+                    android:layout_width="@dimen/ic_normal"
+                    android:layout_height="@dimen/ic_normal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginRight="@dimen/interval_normal"
 
-    </RelativeLayout>
+                    android:background="@{viewModel.isSpeechModel ? @drawable/ic_keyboard_white_24dp : @drawable/ic_voice_white_24dp}"/>
+                <EditText
+                    android:id="@+id/ed_start"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintLeft_toRightOf="@id/ic_add"
+                    app:layout_constraintRight_toLeftOf="@id/ic_keyboard"
+                    android:background="@color/white"
+                    android:layout_marginLeft="@dimen/interval_normal"
+                    android:layout_marginRight="@dimen/interval_normal"
+                    android:paddingLeft="@dimen/interval_normal"
+                    android:imeActionLabel="@string/confirm"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true"
+
+                    />
+                <Button
+                    android:id="@+id/bt_start"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintLeft_toRightOf="@id/ic_add"
+                    android:text="@{viewModel.tip,default =`点击后开始识别`}"
+                    android:layout_marginLeft="@dimen/interval_normal"
+                    android:layout_marginRight="@dimen/interval_normal"
+                    android:textSize="@dimen/text_size_medium"
+                    android:background="@color/white"
+                    app:layout_constraintRight_toLeftOf="@id/ic_keyboard"
+                    android:onClick="@{()->viewModel.start()}"
+                    android:visibility="@{viewModel.isSpeechModel ? View.VISIBLE : View.GONE}"/>
+
+                <View
+                    android:id="@+id/ic_add"
+                    android:layout_width="@dimen/ic_normal"
+                    android:layout_height="@dimen/ic_normal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="@dimen/interval_normal"
+                    android:background="@drawable/ic_add_circle_white_24dp"
+                    />
+            </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 </layout>

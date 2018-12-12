@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion compile_version
+    buildToolsVersion build_version
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion compile_version
         versionCode 1
         versionName "1.0"
 
@@ -21,7 +21,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/com.baidu.tts_2.3.0.jar')
-    compile files('libs/bdasr_V3_20170801_60da871.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/bdasr_V3_20170929_c8984af.jar')
+    implementation files('libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar')
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 }

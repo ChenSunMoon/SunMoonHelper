@@ -6,9 +6,5 @@
             android:id="@+id/nav_voice"
             android:icon="@drawable/ic_voice"
             android:title="语音助手" />
-        <item
-            android:id="@+id/nav_remind"
-            android:icon="@drawable/ic_menu_remind"
-            android:title="我的提醒" />
     </group>
 </menu>

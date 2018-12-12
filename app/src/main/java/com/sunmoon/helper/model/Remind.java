@@ -1,16 +1,19 @@
 package com.sunmoon.helper.model;
 
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
-
+@Entity
 public class Remind {
 
-    private long id;
+    @PrimaryKey private long id;
     private String content;
     private String time;
-    private int status;
+    private int status = TO_BE_DONE;
     private String completeTime;
-
+    public static int TO_BE_DONE = 0;
+    public static int COMPLETED = 1;
     public Remind(long id, String content, String time, int status,
             String completeTime) {
         this.id = id;

@@ -1,15 +1,11 @@
 package com.sunmoon.helper.utils;
 
-import android.content.Intent;
-
 import com.sunmoon.helper.model.Purpose;
 import com.sunmoon.helper.model.Sentence;
 import com.sunmoon.helper.model.UserCommand;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /*
@@ -26,7 +22,7 @@ public class UserPurpose {
         list.add(new Purpose(UserCommand.COMMAND_REMIND, new String[]{"提醒我","提醒"}));
     }
 
-    public UserCommand getUserCommand(String content) {
+    public static UserCommand create(String content) {
         UserCommand userCommand = new UserCommand();
         for (int i=0;i<list.size();i++)
         {
@@ -49,5 +45,4 @@ public class UserPurpose {
         userCommand.setType(UserCommand.COMMAND_CHAT);
         return userCommand;
     }
-
 }

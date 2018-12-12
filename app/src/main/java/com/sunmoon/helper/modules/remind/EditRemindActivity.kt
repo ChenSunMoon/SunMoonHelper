@@ -17,16 +17,16 @@ class EditRemindActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        vm = EditRemindViewModel(this)
-        val isNew = intent.getBooleanExtra("isNew", false)
-        if (isNew) {
-            val remindContent = intent.getStringExtra("remindContent")
-            val similarTime = intent.getStringExtra("similarTime")
-            vm.initNew(similarTime, remindContent)
-        } else {
-            val id = intent.getLongExtra("remindId", 0)
-            vm.initById(id)
-        }
+        vm = EditRemindViewModel()
+        val isNew = intent.getBooleanExtra("isNew", true)
+//        if (isNew) {
+//            val remindContent = intent.getStringExtra("remindContent")
+//            val similarTime = intent.getStringExtra("similarTime")
+//            vm.initNew(similarTime, remindContent)
+//        } else {
+//            val id = intent.getLongExtra("remindId", 0)
+//            vm.initById(id)
+//        }
         b = DataBindingUtil.setContentView(this, R.layout.activity_edit_remind)
         b.vm = vm
         b.tp.hour

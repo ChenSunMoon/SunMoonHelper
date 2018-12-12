@@ -2,11 +2,12 @@
 <resources>
     <color name="colorPrimary">#42a5f5</color>
     <color name="colorPrimaryDark">#2196f3</color>
-    <color name="colorAccent">#64b5f6</color>
+    <color name="colorAccent">#2196f3</color>
     <color name="colorBack">#E3F2FD</color>
     <color name="black">#000000</color>
     <color name="grey">#808080</color>
     <color name="white">#ffffff</color>
     <color name="chat_back">#f0f2f8</color>
     <color name="ripple">#bfbfbf</color>
+    <color name="mainColor">#3bbbbb</color>
 </resources>

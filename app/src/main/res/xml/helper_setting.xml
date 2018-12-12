@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+        <!--android:defaultValue 设置默认值-->
+        <!--android:key 在Preference里面存储的key,在代码中通过此key索引Preference对象-->
+        <!--android:title 标题-->
+        <!--android:summary 描述,对选项进一步补充描述    -->
+        <!--PreferenceCategory一组分类-->
+        <android.support.v7.preference.PreferenceCategory android:title="语音识别">
+            <!--选择控件-->
+            <android.support.v7.preference.SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="setting_wake_up"
+                android:title="语音唤醒"
+                android:summary="说出“小明帮我“自动开启语音识别功能"/>
+            <android.support.v7.preference.SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="setting_tts"
+                android:title="语音合成"
+                android:summary="自动播放回复信息"/>
+        </android.support.v7.preference.PreferenceCategory>
+        <android.support.v7.preference.Preference android:title="关于">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://sunmoon.pw/" />
+        </android.support.v7.preference.Preference>
+
+</android.support.v7.preference.PreferenceScreen>

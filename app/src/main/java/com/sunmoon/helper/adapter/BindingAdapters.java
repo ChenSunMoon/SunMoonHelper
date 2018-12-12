@@ -10,7 +10,10 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 
-import retrofit2.http.Url;
+import cn.jiguang.imui.messages.MessageList;
+import cn.jiguang.imui.messages.MsgListAdapter;
+import sunmoon.voice.control.SpeechRec;
+import sunmoon.voice.rec.IRecogListener;
 
 /**mport android.widget.TimePicker;
 
@@ -44,4 +47,10 @@ public class BindingAdapters {
     public static void setUrl(WebView wb, String url){
         wb.loadUrl(url);
     }
+
+    @BindingAdapter("adapter")
+    public static void setMsgAdapter(MessageList view, MsgListAdapter adapter){
+         view.setAdapter(adapter);
+    }
+
 }

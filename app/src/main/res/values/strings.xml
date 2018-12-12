@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">SunMoon语音助手</string>
+    <string name="app_name">小明帮我</string>
     <string name="title_activity_main">MainActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">设置</string>
     <string name="require_record_permission">需要录音权限</string>
+    <string name="tip_wake_up_disabled">已关闭唤醒，点击面板说话。</string>
+    <string name="tip_wake_up_enable">试试“小明帮我”</string>
+    <string name="tip_wake_up_success">需要什么帮助呢？说出来吧！</string>
+    <string name="confirm">确定</string>
 </resources>

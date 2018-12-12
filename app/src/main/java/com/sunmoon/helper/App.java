@@ -1,20 +1,35 @@
 package com.sunmoon.helper;
 
 import android.app.Application;
+import android.preference.PreferenceManager;
 
-import sunmoon.voice.recognition.VoiceRec;
+import java.util.Map;
+
+import sunmoon.voice.control.SpeechRec;
+import sunmoon.voice.control.VoiceWakeup;
+import sunmoon.voice.rec.online.OnlineRecogParams;
+import sunmoon.voice.tts.Speaker;
+
 
 /**
  * Created by SunMoon on 2016/10/24.
  */
 
 public class App extends Application {
+    public static Application app;
     @Override
     public void onCreate() {
         super.onCreate();
-        // 初始化语音识别
-        VoiceRec.getInstance().init(this);
+        app = this;
+        SpeechRec.init(app);
+        OnlineRecogParams onlineRecogParams = new OnlineRecogParams(app);
+        Map<String, Object> params = onlineRecogParams.fetch(PreferenceManager.getDefaultSharedPreferences(app));
+        SpeechRec.getInstance().setParams(params);
+        Speaker.init(this);
+        VoiceWakeup.init(this);
+
     }
-
-
+    public static Application get(){
+        return app;
+    }
 }
