@@ -3,12 +3,14 @@ package com.sunmoon.helper;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
+import com.blankj.utilcode.util.Utils;
+
 import java.util.Map;
 
 import sunmoon.voice.control.SpeechRec;
 import sunmoon.voice.control.VoiceWakeup;
 import sunmoon.voice.rec.online.OnlineRecogParams;
-import sunmoon.voice.tts.Speaker;
+import com.sunmoon.helper.utils.Speaker;
 
 
 /**
@@ -27,7 +29,7 @@ public class App extends Application {
         SpeechRec.getInstance().setParams(params);
         Speaker.init(this);
         VoiceWakeup.init(this);
-
+        Utils.init(this);
     }
     public static Application get(){
         return app;

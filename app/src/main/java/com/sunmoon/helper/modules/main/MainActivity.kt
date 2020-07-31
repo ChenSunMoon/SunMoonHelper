@@ -9,11 +9,13 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
+import com.blankj.utilcode.util.ServiceUtils
 import com.sunmoon.helper.R
 import com.sunmoon.helper.base.BaseActivity
 import com.sunmoon.helper.databinding.ActivityMainBinding
 import com.sunmoon.helper.modules.helper.HelperFragment
 import com.sunmoon.helper.modules.helper.SettingActivity
+import com.sunmoon.helper.service.HelperWakeUpService
 import com.sunmoon.helper.utils.IntentUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,6 +42,7 @@ class MainActivity : BaseActivity() {
         addFragments()
 
         checkPermissions()
+        ServiceUtils.startService(HelperWakeUpService::class.java)
     }
 
 
@@ -94,6 +97,11 @@ class MainActivity : BaseActivity() {
             showToast("未找到页面：$tagName" )
         }
         title = name
+    }
+
+    override fun onStop() {
+        super.onStop()
+
     }
 
 }

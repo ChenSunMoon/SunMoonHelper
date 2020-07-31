@@ -16,6 +16,15 @@ android {
         ndk {
             abiFilters 'armeabi'
         }
+        useLibrary 'org.apache.http.legacy'
+        packagingOptions {
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/LICENSE.txt'
+            exclude 'META-INF/NOTICE.txt'
+        }
+
     }
     buildTypes {
         release {
@@ -87,6 +96,7 @@ dependencies {
     implementation "android.arch.paging:runtime:1.0.1"
     implementation 'com.blankj:utilcode:1.22.0' //工具类
     implementation files('libs/pinyin4j-2.5.0.jar')
+    api 'org.apache.httpcomponents:httpclient:4.4.1'
 }
 repositories {
     mavenCentral()

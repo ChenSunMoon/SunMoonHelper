@@ -26,7 +26,7 @@ import com.sunmoon.helper.utils.UserPurpose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import sunmoon.voice.control.SpeechRec
-import sunmoon.voice.tts.Speaker
+import com.sunmoon.helper.utils.Speaker
 
 /**
  * Created by SunMoon on 2016/11/30.
@@ -69,8 +69,13 @@ class HelperViewModel() : BaseViewModel() {
             adapter?.updateMessage(curUserMsg)
         }
         adapter?.addToStart(MyMessage(msg, IMessage.MessageType.RECEIVE_TEXT), true)
+//        Speaker.getInstance().start(msg)
     }
-    fun execCommand(content: String) {
+    private fun filter(content:String): String {
+        return content.replace("，", "").trim()
+    }
+    fun execCommand(data: String) {
+        val content = filter(data)
         sendMsg(content)
         val userCommand = UserPurpose.create(content)
         val target = userCommand.sentence.target

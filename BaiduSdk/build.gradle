@@ -21,8 +21,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation files('libs/bdasr_V3_20170929_c8984af.jar')
-    implementation files('libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar')
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/bdasr_V3_20191210_81acdf5.jar')
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 }

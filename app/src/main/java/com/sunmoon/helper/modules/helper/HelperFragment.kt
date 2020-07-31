@@ -1,15 +1,12 @@
 package com.sunmoon.helper.modules.helper
 
-import android.app.ActionBar
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.databinding.Observable
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -17,7 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.sunmoon.helper.R
 import com.sunmoon.helper.base.BaseFragment
 import com.sunmoon.helper.databinding.FragmentHelperBinding
@@ -99,6 +95,7 @@ class HelperFragment : BaseFragment<FragmentHelperBinding>(), IRecogListener {
     }
 
     override fun lazyLoad() {
+
         if (HelperSetting.canWakeUp) {
             VoiceWakeup.getInstance().start()
         }
@@ -109,6 +106,7 @@ class HelperFragment : BaseFragment<FragmentHelperBinding>(), IRecogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         HelperSetting.getSetting(context!!)
+
         viewModel = ViewModelProviders.of(activity!!).get(HelperViewModel::class.java)
         viewModel?.init(activity!!)
         SpeechRec.getInstance().onEvent(this)
@@ -132,7 +130,6 @@ class HelperFragment : BaseFragment<FragmentHelperBinding>(), IRecogListener {
 
     override fun onPause() {
         super.onPause()
-        VoiceWakeup.getInstance().stop()
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -143,10 +140,6 @@ class HelperFragment : BaseFragment<FragmentHelperBinding>(), IRecogListener {
     }
     override fun initView() {
         b?.viewModel = viewModel
-//        b?.btStart?.setOnClickListener {
-//
-//            ToastUtils.showShort("start")
-//        }
         b?.icKeyboard?.setOnClickListener {
             var isSpeech = viewModel!!.isSpeechModel.get() == false
             viewModel?.isSpeechModel?.set(isSpeech)
